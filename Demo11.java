@@ -55,8 +55,6 @@ public class Demo11 {
                 while (used.contains(nextMin)) {
                     nextMin++;
                 }
-
-                used.remove(arr[i]); // remove old duplicate
                 arr[i] = nextMin;
                 used.add(nextMin);
                 nextMin++;
