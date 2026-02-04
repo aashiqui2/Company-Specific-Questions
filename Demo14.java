@@ -12,7 +12,7 @@ public class Demo14 {
         System.out.println("Optimal Result: " +exist(board, word));
     }
 
-    public static boolean exist(char[][] board, String word) {
+    /*public static boolean exist(char[][] board, String word) {
         int m = board.length, n = board[0].length;
         boolean[][] vis = new boolean[m][n];
 
@@ -47,12 +47,23 @@ public class Demo14 {
 
         vis[r][c] = false; // backtrack
         return found;
+    }*/
+
+    public static boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, word, i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean dfs(char[][] board, String word, int r, int c, int idx) {
-
         if (idx == word.length()) return true;
-
+        
         if (r < 0 || c < 0 || r >= board.length || c >= board[0].length)
             return false;
 

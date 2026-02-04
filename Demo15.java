@@ -1,6 +1,9 @@
 public class Demo15 {
-    
-    /*
+
+    public static void main(String[] args) {
+        System.out.println(lookAndSay(5));
+    }
+
     public static String lookAndSay(int n) {
         String[] dp = new String[n + 1];
         dp[1] = "1";
@@ -16,46 +19,17 @@ public class Demo15 {
         StringBuilder sb = new StringBuilder();
         int count = 1;
 
-        for (int i = 1; i <= s.length(); i++) {
-            if (i < s.length() && s.charAt(i) == s.charAt(i - 1)) {
+        for (int i = 0; i <s.length(); i++) {
+            // if next char exists and is same, keep counting
+            if (i+1 < s.length() && s.charAt(i) == s.charAt(i + 1)) {
                 count++;
             } else {
                 sb.append(count);
-                sb.append(s.charAt(i - 1));
-                count = 1;
-            }
-        }
-        return sb.toString();
-    }*/
-   
-
-   
-    public static String lookAndSay(int n) {
-        String result = "1";
-
-        for (int i = 2; i <= n; i++) {
-            result = build(result);
-        }
-        return result;
-    }
-
-    private static String build(String s) {
-        StringBuilder sb = new StringBuilder();
-        int count = 1;
-
-        for (int i = 1; i <= s.length(); i++) {
-            if (i < s.length() && s.charAt(i) == s.charAt(i - 1)) {
-                count++;
-            } else {
-                sb.append(count).append(s.charAt(i - 1));
+                sb.append(s.charAt(i));
                 count = 1;
             }
         }
         return sb.toString();
     }
-    
 
-    public static void main(String[] args) {
-        System.out.println(lookAndSay(5)); 
-    }
 }
