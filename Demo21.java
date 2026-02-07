@@ -1,6 +1,6 @@
 public class Demo21 {
     public static void main(String[] args) {
-        countCurrency(800);
+        countCurrency(1500);
     }
     //! Greedy Approach
     public static void countCurrency(int amount)
@@ -9,7 +9,7 @@ public class Demo21 {
         int[] noteCounter = new int[9];
 
         for (int i = 0; i < 9; i++) {
-            if (amount >= notes[i]) {
+            while (amount >= notes[i]) {
                 noteCounter[i] = amount / notes[i];
                 amount = amount % notes[i];
             }
