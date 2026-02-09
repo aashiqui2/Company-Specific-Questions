@@ -7,7 +7,7 @@ public class Demo23 {
         //int nums[] = { -1, 1, -6, 4, 5, -6, 1, 4, 1 };
         int nums[]={1,2,3,4};
         System.out.println(Arrays.toString(frequencySort(nums)));
-        // ! Problem rule:
+        //! Problem rule:
         // 1.Lower frequency first
         // 2.If same frequency → larger value first
     }
