@@ -18,7 +18,7 @@ public class Demo41 {
 
             if (Character.isDigit(s.charAt(idx))) {
                 int k = 0;
-                while (Character.isDigit(s.charAt(idx))) {
+                while (idx < s.length() && Character.isDigit(s.charAt(idx))) {
                     k = k * 10 + (s.charAt(idx) - '0');
                     idx++;
                 }
