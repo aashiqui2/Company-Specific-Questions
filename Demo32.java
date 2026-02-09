@@ -15,7 +15,7 @@ public class Demo32 {
                 }
             }
 
-            if (count % 3 != 0) {
+            if (count % 3 == 1) {
                 result |= (1 << bit);
             }
         }
