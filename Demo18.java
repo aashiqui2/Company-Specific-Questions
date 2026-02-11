@@ -1,48 +1,43 @@
 public class Demo18 {
     public static void main(String[] args) {
-        String b1 = "11111";
-        String b2 = "11101";
+        // String b1 = "11111";
+        // String b2 = "11101";
+        String b1="01001001";
+        String b2="0110101";
+        System.out.println(addBinary(b1, b2)); //1111110
     }
 
-    /*public static void printBinarySum(String b1, String b2) {
-        int i = b1.length() - 1;
+    public static String addBinary(String a, String b) {
+        int i = a.length() - 1;
+        int j = b.length() - 1;
         int carry = 0;
-        String result = "";
 
-        while (i >= 0) {
-            int sum = (b1.charAt(i) - '0')
-                    + (b2.charAt(i) - '0')
-                    + carry;
-
-            result = (sum % 2) + result;
-            carry = sum / 2;
-            i--;
-        }
-
-        if (carry == 1)
-            result = carry + result;
-
-        System.out.println(result);
-    }*/
-
-    public static void printBinarySum(String b1,String b2){
-        int i = b1.length() - 1;
-        int carry = 0;
         StringBuilder sb = new StringBuilder();
+        while (i >= 0 || j >= 0) {
+            int sum = carry;
+            if (i >= 0) {
+                sum += a.charAt(i) - '0';
+                i--;
+            }
 
-        while (i >= 0) {
-            int sum = (b1.charAt(i) - '0')
-                    + (b2.charAt(i) - '0')
-                    + carry;
-
+            if (j >= 0) {
+                sum += b.charAt(j) - '0';
+                j--;
+            }
             sb.append(sum % 2);
             carry = sum / 2;
-            i--;
         }
-
-        if (carry == 1)
+        if (carry != 0) {
             sb.append(carry);
-
-        System.out.println(sb.reverse().toString());
+        }
+        sb.reverse();
+        int index = 0;
+        while (index < sb.length() - 1 && sb.charAt(index) == '0') {
+            index++;
+            
+        }
+        return sb.substring(index);
+        //return sb.reverse().toString();
     }
+
 }
