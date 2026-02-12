@@ -1,33 +1,69 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Demo29 {
     public static void main(String[] args) {
-        int[] arr1 = { 2, 4, 6, 8, 9, 10, 12 };
-        int[] arr2 = { 2, 4, 6, 8, 10, 12 };
-        System.out.println(findExtra(arr1, arr2));
+        // int arr[]={5,5,4,6,4};
+        //int arr[] = { 9, 9, 9, 2, 5 };
+        int arr[]={1,2,3,4};
+        sortByFrequency(arr);
+        //! Problem rule: 
+        // 1.Higher frequency first 
+        // 2.If same frequency → smaller value first
     }
 
-    /*public static int findExtra(int[] arr1, int[] arr2) {
-        int n = arr2.length;
+    /*public static void sortByFrequency(int[] arr) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
 
-        for (int i = 0; i < n; i++) {
-            if (arr1[i] != arr2[i]) {
-                return i;
+        List<Integer> elements = new ArrayList<>(freq.keySet());
+
+        elements.sort((a, b) -> {
+            if (!freq.get(a).equals(freq.get(b))) {
+                return freq.get(b) - freq.get(a);
+            }
+            return a - b;
+        });
+
+        for (int num : elements) {
+            for (int i = 0; i < freq.get(num); i++) {
+                System.out.print(num + " ");
             }
         }
-        return n;
+        System.out.println();
     }*/
 
-    public static int findExtra(int[] arr1, int[] arr2) {
-        int low = 0, high = arr2.length - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+   public static void sortByFrequency(int[] arr) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
 
-            if (arr1[mid] == arr2[mid]) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
+        TreeMap<Integer, Integer> tree = new TreeMap<>(
+            (a, b) -> {
+                if (!freq.get(a).equals(freq.get(b))) {
+                    return freq.get(b) - freq.get(a); // higher frequency first
+                }
+                return a - b; // smaller value first
+            }
+        );
+
+        tree.putAll(freq);
+
+    
+        for (Map.Entry<Integer, Integer> entry : tree.entrySet()) {
+            int value = entry.getKey();
+            int count = entry.getValue();
+
+            for (int i = 0; i < count; i++) {
+                System.out.print(value + " ");
             }
         }
-        return low;
+        System.out.println();
     }
-
 }

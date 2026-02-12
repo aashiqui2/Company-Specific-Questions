@@ -1,72 +1,33 @@
-import java.util.Arrays;
-
 public class Demo37 {
     public static void main(String[] args) {
-        int a[] = { 4, 6, 3, 7 };
-        System.out.println(countTriangles(a));
+        int[] arr1 = { 2, 4, 6, 8, 9, 10, 12 };
+        int[] arr2 = { 2, 4, 6, 8, 10, 12 };
+        System.out.println(findExtra(arr1, arr2));
     }
 
-    /*public static int countTriangles(int[] arr) {
-        int n = arr.length;
-        int count = 0;
+    /*public static int findExtra(int[] arr1, int[] arr2) {
+        int n = arr2.length;
 
-        for (int i = 0; i < n - 2; i++) {
-            for (int j = i + 1; j < n - 1; j++) {
-                for (int k = j + 1; k < n; k++) {
-                    if (arr[i] + arr[j] > arr[k] &&
-                        arr[i] + arr[k] > arr[j] &&
-                        arr[j] + arr[k] > arr[i]) {
-                        count++;
-                    }
-                }
+        for (int i = 0; i < n; i++) {
+            if (arr1[i] != arr2[i]) {
+                return i;
             }
         }
-        return count;
+        return n;
     }*/
 
-    /*public static int countTriangles(int[] arr) {
-        int n = arr.length;
-        int count = 0;
-        Arrays.sort(arr);
+    public static int findExtra(int[] arr1, int[] arr2) {
+        int low = 0, high = arr2.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
 
-        for (int i = 0; i < n - 2; i++) {
-            for (int j = i + 1; j < n - 1; j++) {
-                int low = j + 1, high = n - 1;
-                int idx = j;
-
-                while (low <= high) {
-                    int mid = (low + high) / 2;
-                    if (arr[i] + arr[j] > arr[mid]) {
-                        idx = mid;
-                        low = mid + 1;
-                    } else {
-                        high = mid - 1;
-                    }
-                }
-                count += idx - j;
+            if (arr1[mid] == arr2[mid]) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        return count;
-    }*/
-
-    public static int countTrianglesOptimal(int[] arr) {
-        int n = arr.length;
-        int count = 0;
-        Arrays.sort(arr);
-
-        for (int k = n - 1; k >= 2; k--) {
-            int i = 0, j = k - 1;
-
-            while (i < j) {
-                if (arr[i] + arr[j] > arr[k]) {
-                    count += (j - i);
-                    j--;
-                } else {
-                    i++;
-                }
-            }
-        }
-        return count;
+        return low;
     }
 
 }

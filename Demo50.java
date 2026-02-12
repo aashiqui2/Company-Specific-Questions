@@ -1,48 +1,20 @@
 public class Demo50 {
-    public static void main(String[] args) {
-        String str1="occurrence";
-        String str2="car";
-        System.out.println(removeChars(str1, str2));
-
+    public static void main(String[] args){
+        int n=121;
+        //int n=-121;
+        System.out.println(isPalindrome(n));
     }
-
-    /*public static String removeChars(String str1, String str2) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < str1.length(); i++) {
-            char ch = str1.charAt(i);
-            boolean found = false;
-
-            for (int j = 0; j < str2.length(); j++) {
-                if (ch == str2.charAt(j)) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                result.append(ch);
-            }
+    public static boolean isPalindrome(int x) {
+        if(x<0){
+            return false;
         }
-        return result.toString();
-    }*/
-
-    public static String removeChars(String str1, String str2) {
-        boolean[] remove = new boolean[26];
-        // Mark characters from str2
-        for (int i = 0; i < str2.length(); i++) {
-            remove[str2.charAt(i) - 'a'] = true;
+        int rev=0;
+        int temp=x;
+        while(temp!=0){
+            int rem=temp%10;
+            rev=(rev*10)+rem;
+            temp/=10;
         }
-        StringBuilder result = new StringBuilder();
-
-        // Build result from str1
-        for (int i = 0; i < str1.length(); i++) {
-            char ch = str1.charAt(i);
-
-            if (!remove[ch - 'a']) {
-                result.append(ch);
-            }
-        }
-
-        return result.toString();
+        return (rev==x)? true: false;
     }
 }

@@ -1,26 +1,40 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Demo30 {
-    public static int[] moveZeros(int n, int[] arr) {
-        int index = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] != 0) {
-                if (i != index) {
-                    int temp = arr[i];
-                    arr[i] = arr[index];
-                    arr[index] = temp;
-                }
-                index++;
-            }
-        }
-        return arr;
+    public static void main(String[] args) {
+        //int nums[] = { -1, 1, -6, 4, 5, -6, 1, 4, 1 };
+        //int nums[]={1,2,3,4};
+        int nums[]={1,1,2,2,2,3};
+        System.out.println(Arrays.toString(frequencySort(nums)));
+        //! Problem rule:
+        // 1.Lower frequency first
+        // 2.If same frequency → larger value first
     }
 
-    public static void main(String[] args) {
-        int[] arr = { 1, 0, 2, 3, 2, 0, 0, 4, 5, 1 };
-        int n = 10;
-        int[] ans = moveZeros(n, arr);
-        for (int i = 0; i < n; i++) {
-            System.out.print(ans[i] + " ");
+    public static int[] frequencySort(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int val : nums) {
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
         }
-        System.out.println("");
+
+        Integer[] arr = new Integer[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            arr[i] = nums[i];
+        }
+        Arrays.sort(arr, (a, b) -> {
+            if (!freq.get(a).equals(freq.get(b))) {
+                return freq.get(a) - freq.get(b);
+            }
+            return b - a;
+        });
+
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = arr[i];
+        }
+
+        return nums;
+
     }
 }

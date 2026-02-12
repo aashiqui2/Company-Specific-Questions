@@ -1,32 +1,23 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Demo44 {
     public static void main(String[] args) {
-        // int arr[]={2, 2, 0, 4, 0, 8};
-        int arr[] = { 0, 2, 2, 2, 0, 6, 6, 0, 0, 8 };
-        System.out.println(Arrays.toString(modifyAndRearrangeArr(arr)));
+        System.out.println(minimumMoves("XXX")); 
+        System.out.println(minimumMoves("XXOX")); 
+        System.out.println(minimumMoves("OXOX")); 
     }
-    public static int[] modifyAndRearrangeArr(int[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] != 0 && arr[i] == arr[i + 1]) {
-                arr[i] *= 2;
-                arr[i + 1] = 0;
-                i++; // skip next element
-            }
-        }
+    public static int minimumMoves(String s) {
+        int moves = 0;
+        int i = 0;
 
-        int idx=0;
-        for(int i=0;i<arr.length;i++){
-            if(arr[i]!=0){
-                if(i!=idx){
-                    arr[idx]=arr[i];
-                    arr[i]=0;
-                }
-                idx++;
+        while (i < s.length()) {
+            if (s.charAt(i) == 'X') {
+                moves++;
+                i += 3; // fix s[i], s[i+1], s[i+2]
+            } else {
+                i++;
             }
         }
-        return arr;
+        return moves;
     }
+
+    
 }

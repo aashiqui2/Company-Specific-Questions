@@ -1,61 +1,29 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Demo10 {
     public static void main(String[] args) {
-        String str = "geeksogeeks";
-        if (canFormPalindrome(str)) {
-            System.out.println("Yes");
-        } else {
-            System.out.println("No");
-        }
+        int arr[] = { -1, 2, 3, 10, -4, 7, 2, -5 };
+        int result = findMaxSubArraySum(arr, arr.length);
+        System.out.println(result);
     }
 
-    /*public static boolean canFormPalindrome(String s) {
-        int oddCount = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int count = 0;
-            for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(i) == s.charAt(j)) {
-                    count++;
-                }
-            }
-            if (count % 2 != 0) {
-                oddCount++;
+    /*public static int findMaxSubArraySum(int[] arr, int n) {
+        int maxSum = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int currentSum = 0;
+            for (int j = i; j < n; j++) {
+                currentSum += arr[j];
+                maxSum = Math.max(maxSum, currentSum);
             }
         }
-        if (oddCount <= 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return maxSum;
     }*/
 
-    /*public static boolean canFormPalindrome(String s) {
-        Map<Character, Integer> freq = new HashMap<>();
-        for (char c : s.toCharArray()) {
-            freq.put(c, freq.getOrDefault(c, 0) + 1);
+    public static int findMaxSubArraySum(int[] arr, int n) {
+        int maxSum = arr[0];
+        int currentSum = arr[0];
+        for (int i = 1; i < n; i++) {
+            currentSum = Math.max(arr[i], currentSum + arr[i]);
+            maxSum = Math.max(maxSum, currentSum);
         }
-        int oddCount = 0;
-        for (int count : freq.values()) {
-            if (count % 2 != 0) {
-                oddCount++;
-            }
-        }
-        return (oddCount <= 1) ? true : false;
-    }*/
-
-    public static boolean canFormPalindrome(String s) {
-        int[] freq = new int[26];
-        for (char c : s.toCharArray()) {
-            freq[c - 'a']++;
-        }
-        int oddCount = 0;
-        for (int f : freq) {
-            if (f % 2 != 0)
-                oddCount++;
-        }
-        return oddCount <= 1 ? true : false;
+        return maxSum;
     }
-
 }

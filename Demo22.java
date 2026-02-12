@@ -1,69 +1,71 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Demo22 {
     public static void main(String[] args) {
-        // int arr[]={5,4,5,6,4};
-        //int arr[] = { 9, 9, 9, 2, 5 };
-        int arr[]={1,2,3,4};
-        sortByFrequency(arr);
-        //! Problem rule: 
-        // 1.Higher frequency first 
-        // 2.If same frequency → smaller value first
+        int[] arr = { 1, 2, 3, 5, 4, 7, 10 };
+        sortIt(arr);
+        System.out.println(Arrays.toString(arr));
     }
 
-    /*public static void sortByFrequency(int[] arr) {
-        Map<Integer, Integer> freq = new HashMap<>();
+    /*public static void sortIt(int[] arr) {
+        List<Integer> odd = new ArrayList<>();
+        List<Integer> even = new ArrayList<>();
+
         for (int num : arr) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
+            if ((num & 1) == 1)
+                odd.add(num);
+            else
+                even.add(num);
         }
 
-        List<Integer> elements = new ArrayList<>(freq.keySet());
+        odd.sort(Collections.reverseOrder());
+        even.sort(Integer::compareTo);
 
-        elements.sort((a, b) -> {
-            if (!freq.get(a).equals(freq.get(b))) {
-                return freq.get(b) - freq.get(a);
-            }
-            return a - b;
-        });
-
-        for (int num : elements) {
-            for (int i = 0; i < freq.get(num); i++) {
-                System.out.print(num + " ");
-            }
-        }
-        System.out.println();
+        int index = 0;
+        for (int x : odd)
+            arr[index++] = x;
+        for (int x : even)
+            arr[index++] = x;
     }*/
 
-   public static void sortByFrequency(int[] arr) {
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int num : arr) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
+    /*public static void sortIt(int[] arr) {
+
+        List<Integer> odds = Arrays.stream(arr)
+                .filter(n -> (n & 1) == 1)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
+
+        List<Integer> evens = Arrays.stream(arr)
+                .filter(n -> (n & 1) == 0)
+                .boxed()
+                .sorted()
+                .collect(Collectors.toList());
+
+        int idx = 0;
+        for (int x : odds)
+            arr[idx++] = x;
+        for (int x : evens)
+            arr[idx++] = x;
+    }*/
+
+    public static void sortIt(int[] arr) {
+        Integer[] temp = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+        Arrays.sort(temp, (a, b) -> {
+
+            if ((a & 1) == 1 && (b & 1) == 1)
+                return b - a; // descending
+
+            if ((a & 1) == 0 && (b & 1) == 0)
+                return a - b; // ascending
+
+            // odd comes before even
+            return (a & 1) == 1 ? -1 : 1;
+        });
+
+        for (int i = 0; i < arr.length; i++){
+            arr[i] = temp[i];
         }
-
-        TreeMap<Integer, Integer> tree = new TreeMap<>(
-            (a, b) -> {
-                if (!freq.get(a).equals(freq.get(b))) {
-                    return freq.get(b) - freq.get(a); // higher frequency first
-                }
-                return a - b; // smaller value first
-            }
-        );
-
-        tree.putAll(freq);
-
-    
-        for (Map.Entry<Integer, Integer> entry : tree.entrySet()) {
-            int value = entry.getKey();
-            int count = entry.getValue();
-
-            for (int i = 0; i < count; i++) {
-                System.out.print(value + " ");
-            }
-        }
-        System.out.println();
     }
 }

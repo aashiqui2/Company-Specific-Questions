@@ -1,33 +1,27 @@
 public class Demo51 {
     public static void main(String[] args) {
-        String jewels="aA";
-        String stones="aAAbbbb";
-        System.out.println(numJewelsInStones(jewels, stones));
+        //String str="A&x#";
+        String str= "(x$l$`ek]$intly$l$ysbzatm";
+        System.out.println(reverse(str));
     }
-    /*public static int numJewelsInStones(String jewels, String stones) {
-        int count = 0;
-        for (int i = 0; i < stones.length(); i++) {
-            char stone = stones.charAt(i);
-            for (int j = 0; j < jewels.length(); j++) {
-                if (stone == jewels.charAt(j)) {
-                    count++;
-                    break;
-                }
+    public static String reverse(String str) {
+        char[] arr = str.toCharArray();
+        int i = 0, j = arr.length - 1;
+
+        while (i < j) {
+            if (!Character.isLetter(arr[i])) {
+                i++;
+            } else if (!Character.isLetter(arr[j])) {
+                j--;
+            } else {
+                char temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
             }
         }
-        return count;
-    }*/
-    public static int numJewelsInStones(String jewels, String stones) {
-        Set<Character> set = new HashSet<>();
-        for (int i = 0; i < jewels.length(); i++) {
-            set.add(jewels.charAt(i));
-        }
-        int count = 0;
-        for (int i = 0; i < stones.length(); i++) {
-            if (set.contains(stones.charAt(i))) {
-                count++;
-            }
-        }
-        return count;
+        return new String(arr);
     }
+
 }

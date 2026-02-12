@@ -1,35 +1,52 @@
+import java.util.Arrays;
+
 public class Demo35 {
     public static void main(String[] args) {
-        System.out.println(missingNumber(new int[] { 1, 2, 3, 5 }));
-        System.out.println(missingNumber(new int[] { 8, 2, 4, 5, 3, 7, 1 }));
-        System.out.println(missingNumber(new int[] { 1 }));
+        int[] arr1 = { 5, 11, 10, 20, 9, 16, 23 };
+        System.out.println(Arrays.toString(sortByFactors(arr1)));
+    }
+    static class Element {
+        int value;
+        int factorsCount;
+        int index;
+
+        Element(int value, int factorsCount, int index) {
+            this.value = value;
+            this.factorsCount = factorsCount;
+            this.index = index;
+        }
     }
 
-    /*public static int missingNumber(int[] arr) {
-        int n = arr.length + 1;
+    public static int[] sortByFactors(int[] arr) {
+        int n = arr.length;
+        Element[] elements = new Element[n];
 
-        long expectedSum = (long) n * (n + 1) / 2;
-        long actualSum = 0;
-
-        for (int num : arr) {
-            actualSum += num;
+        for (int i = 0; i < n; i++) {
+            elements[i] = new Element(arr[i], countFactors(arr[i]), i);
         }
 
-        return (int) (expectedSum - actualSum);
-    }*/
+        Arrays.sort(elements, (a, b) -> {
+            if (b.factorsCount != a.factorsCount)
+                return b.factorsCount - a.factorsCount; 
+            return a.index - b.index;         
+        });
 
-    public static int missingNumber(int[] arr) {
-        int n = arr.length + 1;
-        int xor = 0;
-
-        for (int i = 1; i <= n; i++) {
-            xor ^= i;
+        int[] result = new int[n];
+        for (int i = 0; i < n; i++) {
+            result[i] = elements[i].value;
         }
-
-        for (int num : arr) {
-            xor ^= num;
-        }
-        return xor;
+        return result;
     }
-
+    public static int countFactors(int n) {
+        int count = 0;
+        for (int i = 1; i * i <= n; i++) {
+            if (n % i == 0) {
+                if (i == n/i)
+                    count += 1;
+                else
+                    count += 2;
+            }
+        }
+        return count;
+    }
 }

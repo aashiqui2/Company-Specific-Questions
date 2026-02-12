@@ -1,42 +1,53 @@
+import java.util.Arrays;
+
 public class Demo24 {
+
     public static void main(String[] args) {
-        // String A="gksrek";
-        // String B="geeksforgeeks";
-        String A = "AXY";
-        String B = "YADXCP";
-        System.out.println(isSubsequence(A, B));
+        int[] nums = { 4, 2, 5, 7 };
+        System.out.println(Arrays.toString(sortArrayByParityIIExtra(nums)));
     }
 
-    /*public static int isSubsequence(String A, String B) {
-        int j = 0;
-        for (int i = 0; i < A.length(); i++) {
-            boolean found = false;
-            while (j < B.length()) {
-                if (A.charAt(i) == B.charAt(j)) {
-                    found = true;
-                    j++;
-                    break;
-                }
-                j++;
-            }
-            if (!found) {
-                return 0;
+    /*public static int[] sortArrayByParityIIExtra(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int evenIndex = 0;
+        int oddIndex = 1;
+
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                result[evenIndex] = num;
+                evenIndex += 2;
+            } else {
+                result[oddIndex] = num;
+                oddIndex += 2;
             }
         }
-        return 1;
+        return result;
     }*/
 
-    public static int isSubsequence(String A, String B) {
-        int i = 0; // pointer for A
-        int j = 0; // pointer for B
+    public static int[] sortArrayByParityIIInPlace(int[] nums) {
+        int n = nums.length;
+        int evenIndex = 0;
+        int oddIndex = 1;
 
-        while (i < A.length() && j < B.length()) {
-            if (A.charAt(i) == B.charAt(j)) {
-                i++; // match found, move A
+        while (evenIndex < n && oddIndex < n) {
+            if (nums[evenIndex] % 2 == 0) {
+                evenIndex += 2;
+                continue;
             }
-            j++; // always move B
-        }
+            if (nums[oddIndex] % 2 == 1) {
+                oddIndex += 2;
+                continue;
+            }
+            // swap wrong elements
+            int temp = nums[evenIndex];
+            nums[evenIndex] = nums[oddIndex];
+            nums[oddIndex] = temp;
 
-        return (i == A.length()) ? 1 : 0;
+            evenIndex += 2;
+            oddIndex += 2;
+        }
+        return nums;
     }
+
 }

@@ -1,30 +1,21 @@
 public class Demo33 {
-
-    public static int[] singleNumber(int[] nums) {
-        int xor = 0;
-
-        for (int num : nums) {
-            xor ^= num;
-        }
-
-        int diffBit = xor & (-xor);
-
-        int a = 0, b = 0;
-
-        for (int num : nums) {
-            if ((num & diffBit) == 0) {
-                a ^= num;
-            } else {
-                b ^= num;
+    public static void main(String[] args) {
+        int n=10;
+        printNumber(n);
+    }
+    public static void printNumber(int n){
+        for(int i=2;i<=n;i++){
+            if(isPrime(i)){
+                System.out.print(i+" ");
             }
         }
-        return new int[] { a, b };
     }
-
-    public static void main(String[] args) {
-        int[] nums = { 1, 2, 1, 3, 2, 5 };
-        int[] res = singleNumber(nums);
-
-        System.out.println(res[0] + " " + res[1]);
+    public static boolean isPrime(int n){
+        for(int i=2;i*i<=n;i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
     }
 }

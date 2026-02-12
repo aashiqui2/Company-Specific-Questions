@@ -1,44 +1,48 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Demo25 {
-     public static void main(String[] args) {
-        int[] A = { 20, 7 };
-        int[] B = { 11, 5 };
+    public static void main(String[] args) {
+        int[] nums1 = { 4, 1, 2, 3 };
+        System.out.println(Arrays.toString(sortEvenOddIndices(nums1))); // [2,3,4,1]
 
-        System.out.println(Arrays.toString(leastPrimeToAdd(A, B)));
-    }
-    
-    // 1 is considered prime as per problem statement
-    static boolean isPrime(int n) {
-        if (n == 1)
-            return true;
-        if (n < 2)
-            return false;
-
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0)
-                return false;
-        }
-        return true;
+        int[] nums2 = { 2, 1 };
+        System.out.println(Arrays.toString(sortEvenOddIndices(nums2))); // [2,1]
     }
 
-    static int[] leastPrimeToAdd(int[] A, int[] B) {
-        int n = A.length;
-        int[] result = new int[n];
+    public static int[] sortEvenOddIndices(int[] nums) {
+        int n = nums.length;
+        List<Integer> evenList = new ArrayList<>();
+        List<Integer> oddList = new ArrayList<>();
 
+        // Step 1: Separate even and odd indices
         for (int i = 0; i < n; i++) {
-            int ans = -1;
-
-            for (int p = 1; p < 1000; p++) {
-                if (isPrime(p) && (A[i] + p) % B[i] == 0) {
-                    ans = p;
-                    break;
-                }
+            if (i % 2 == 0) {
+                evenList.add(nums[i]);
+            } else {
+                oddList.add(nums[i]);
             }
-
-            result[i] = ans;
         }
-        return result;
+
+        // Step 2: Sort even indices in ascending order
+        Collections.sort(evenList);
+
+        // Step 3: Sort odd indices in descending order
+        oddList.sort(Collections.reverseOrder());
+
+        // Step 4: Merge back
+        int evenIndex = 0, oddIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) {
+                nums[i] = evenList.get(evenIndex++);
+            } else {
+                nums[i] = oddList.get(oddIndex++);
+            }
+        }
+
+        return nums;
     }
 
 }

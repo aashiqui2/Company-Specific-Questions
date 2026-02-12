@@ -1,64 +1,49 @@
-import java.util.*;
-
 public class Demo11 {
-
     public static void main(String[] args) {
-        int[] arr = { 2, 2, 2, 2, 5, 5, 108, 3, 1 };
-        replaceDuplicates(arr);
-        System.out.println(Arrays.toString(arr));
+        int N = 100;
+        int Y = 17;
+
+        int result = findMinFriends(N, Y);
+        System.out.println(result);
     }
 
-    /*public static void replaceDuplicates(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            boolean first = true;
-            for (int j = 0; j < i; j++) {
-                if (arr[j] == arr[i]) {
-                    first = false;
-                    break;
-                }
-            }
-
-            if (!first) {
-                int candidate = 1;
-                while (contains(arr, candidate)) {
-                    candidate++;
-                }
-                arr[i] = candidate;
+    /*public static int findMinFriends(int N, int Y) {
+        for (int i = Y; i <= N; i++) {
+            if (N % i == 0) {
+                return sumOfDigits(i);
             }
         }
-    }
-
-    public static boolean contains(int[] arr, int val) {
-        for (int x : arr) {
-            if (x == val)
-                return true;
-        }
-        return false;
+        return -1;
     }*/
 
-    public static void replaceDuplicates(int[] arr) {
-        Set<Integer> used = new HashSet<>();
-        for (int x : arr) {
-            used.add(x);
-        }
-        int nextMin = 1;
-        for (int i = 0; i < arr.length; i++) {
-            boolean first = true;
-            for (int j = 0; j < i; j++) {
-                if (arr[j] == arr[i]) {
-                    first = false;
-                    break;
+    public static int findMinFriends(int N, int Y) {
+        int minFriends = Integer.MAX_VALUE;
+        for (int i = 1; i * i <= N; i++) {
+            if (N % i == 0) {
+                int d1 = i;
+                int d2 = N / i;
+                if (d1 >= Y) {
+                    minFriends = Math.min(minFriends, d1);
+                }
+                if (d2 >= Y) {
+                    minFriends = Math.min(minFriends, d2);
                 }
             }
+        }
 
-            if (!first) {
-                while (used.contains(nextMin)) {
-                    nextMin++;
-                }
-                arr[i] = nextMin;
-                used.add(nextMin);
-                nextMin++;
-            }
-        }
+        if (minFriends == Integer.MAX_VALUE)
+            return -1;
+
+        return sumOfDigits(minFriends);
     }
+
+    public static int sumOfDigits(int num) {
+        int sum = 0;
+        while (num != 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
 }

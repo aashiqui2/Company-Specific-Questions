@@ -1,21 +1,25 @@
 public class Demo26 {
     public static void main(String[] args) {
-        int n=10;
-        printNumber(n);
+        countCurrency(1500);
     }
-    public static void printNumber(int n){
-        for(int i=2;i<=n;i++){
-            if(isPrime(i)){
-                System.out.print(i+" ");
+    //! Greedy Approach
+    public static void countCurrency(int amount)
+    {
+        int[] notes = new int[]{ 2000, 500, 200, 100, 50, 20, 10, 5, 1 };
+        int[] noteCounter = new int[9];
+
+        for (int i = 0; i < 9; i++) {
+            while (amount >= notes[i]) {
+                noteCounter[i] = amount / notes[i];
+                amount = amount % notes[i];
             }
         }
-    }
-    public static boolean isPrime(int n){
-        for(int i=2;i*i<=n;i++){
-            if(n%i==0){
-                return false;
+     
+        System.out.println("Currency Count ->");
+        for (int i = 0; i < 9; i++) {
+            if (noteCounter[i] != 0) {
+                System.out.println(notes[i] + " : "+ noteCounter[i]);
             }
         }
-        return true;
     }
 }

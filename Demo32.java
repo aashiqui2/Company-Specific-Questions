@@ -1,24 +1,44 @@
+import java.util.Arrays;
+
 public class Demo32 {
-    public static void main(String[] args) {
-        int nums[]={2,2,2,3};
-        System.out.println(singleNumber(nums));
+     public static void main(String[] args) {
+        int[] A = { 20, 7 };
+        int[] B = { 11, 5 };
+
+        System.out.println(Arrays.toString(leastPrimeToAdd(A, B)));
     }
-    public static int singleNumber(int[] nums) {
-        int result = 0;
+    
+    // 1 is considered prime as per problem statement
+    static boolean isPrime(int n) {
+        if (n == 1)
+            return true;
+        if (n < 2)
+            return false;
 
-        for (int bit = 0; bit < 32; bit++) {
-            int count = 0;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                return false;
+        }
+        return true;
+    }
 
-            for (int num : nums) {
-                if (((num >> bit) & 1) == 1) {
-                    count++;
+    static int[] leastPrimeToAdd(int[] A, int[] B) {
+        int n = A.length;
+        int[] result = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int ans = -1;
+
+            for (int p = 1; p < 1000; p++) {
+                if (isPrime(p) && (A[i] + p) % B[i] == 0) {
+                    ans = p;
+                    break;
                 }
             }
 
-            if (count % 3 == 1) {
-                result |= (1 << bit);
-            }
+            result[i] = ans;
         }
         return result;
     }
+
 }

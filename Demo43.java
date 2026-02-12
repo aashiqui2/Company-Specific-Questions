@@ -1,57 +1,30 @@
 public class Demo43 {
     public static void main(String[] args) {
-        //String s="leet2code3";
-        //int k=10;
-        String s="a2345678999999999999999";
-        int k=1;
-        System.out.println(decodeAtIndex(s, k));
+        int[] nums = { 1, 2, 1, 3, 2, 5 };
+        int[] res = singleNumber(nums);
+
+        System.out.println(res[0] + " " + res[1]);
     }
 
-    /*public static String decodeAtIndex(String s, int k) {
-        StringBuilder sb = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                int d = c - '0';
-                String temp = sb.toString();
-                for (int i = 1; i < d; i++) {
-                    sb.append(temp);
-                }
-            } else {
-                sb.append(c);
-            }
-        }
-        //System.out.println(sb);
-        return sb.substring(k-1, k);
-    }*/
+    public static int[] singleNumber(int[] nums) {
+        int xor = 0;
 
-    public static String decodeAtIndex(String s, int k) {
-        long length = 0;
-
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                length *= (c - '0');
-            } else {
-                length++;
-            }
+        for (int num : nums) {
+            xor ^= num;
         }
 
-        //traverse backwards
-        for (int i = s.length() - 1; i >= 0; i--) {
-            char c = s.charAt(i);
+        int diffBit = xor & (-xor);
 
-            if (Character.isDigit(c)) {
-                int d = c - '0';
-                length /= d;
-                k %= length;//k=(int)k%length;
+        int a = 0, b = 0;
+
+        for (int num : nums) {
+            if ((num & diffBit) == 0) {
+                a ^= num;
             } else {
-                if (k == 0 || k == length) {
-                    return String.valueOf(c);
-                }
-                length--;
+                b ^= num;
             }
         }
-
-        return "";
+        return new int[] { a, b };
     }
 
 }

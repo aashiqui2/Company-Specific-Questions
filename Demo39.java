@@ -1,27 +1,27 @@
 public class Demo39 {
     public static void main(String[] args) {
-        //String str="A&x#";
-        String str= "(x$l$`ek]$intly$l$ysbzatm";
-        System.out.println(reverse(str));
+        int[] arr = { 1, 0, 2, 3, 2, 0, 0, 4, 5, 1 };
+        int n = 10;
+        int[] ans = moveZeros(n, arr);
+        for (int i = 0; i < n; i++) {
+            System.out.print(ans[i] + " ");
+        }
+        System.out.println("");
     }
-    public static String reverse(String str) {
-        char[] arr = str.toCharArray();
-        int i = 0, j = arr.length - 1;
 
-        while (i < j) {
-            if (!Character.isLetter(arr[i])) {
-                i++;
-            } else if (!Character.isLetter(arr[j])) {
-                j--;
-            } else {
-                char temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-                i++;
-                j--;
+    public static int[] moveZeros(int n, int[] arr) {
+        int index = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 0) {
+                if (i != index) {
+                    int temp = arr[i];
+                    arr[i] = arr[index];
+                    arr[index] = temp;
+                }
+                index++;
             }
         }
-        return new String(arr);
+        return arr;
     }
 
 }

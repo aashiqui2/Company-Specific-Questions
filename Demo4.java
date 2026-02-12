@@ -1,40 +1,28 @@
+import java.util.*;
+
 public class Demo4 {
     public static void main(String[] args) {
-        int n=6;
-        int arr[]={11, 21, 32, 45, 1, 23};
-        int num=12;
-        int sum = findPrimeFactorIndexSum(arr, n,num);
-        System.out.println(sum);
+        int n=100;
+        List<Integer> list=primeFac(n);
+        System.out.println(list);
     }
-
-    public static int findPrimeFactorIndexSum(int[] arr, int n, int num) {
-        if(n==0){
-            return -1;
+    public static ArrayList<Integer> primeFac(int n) {
+       Set<Integer> s= new HashSet<>();
+        while(n%2==0){
+            n=n/2;
+            s.add(2);
         }
 
-        int temp = num;
-        int result = 0;
-        boolean found = false;
-
-        for (int i = 2; i * i <= temp; i++) {
-            int count = 0;
-
-            while (temp % i == 0) {
-                count++;
-                temp /= i;
-            }
-
-            if (count > 0 && i < n) {
-                result += count * arr[i];
-                found = true;
+        for(int i=3;i*i<=n;i=i+2){
+            while(n%i==0){
+                s.add(i);
+                n=n/i;
             }
         }
-
-        if (temp > 1 && temp < n) {
-            result += arr[temp];
-            found = true;
+        if(n>2){
+            s.add(n);
         }
-
-        return found ? result : 0;
+        return new ArrayList<>(s);
+        
     }
 }

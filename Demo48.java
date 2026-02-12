@@ -1,61 +1,72 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Demo48 {
-     public static void main(String[] args) {
-        int[] nums = {4, 3, 3, 4, 4, 2, 1, 2, 1, 1};
-        int target = 9;
-        List<List<Integer>> ans = fourSum(nums, target);
-        System.out.println("The quadruplets are: ");
-        for (List<Integer> it : ans) {
-            System.out.print("[");
-            for (int ele : it) {
-                System.out.print(ele + " ");
-            }
-            System.out.print("] ");
-        }
-        System.out.println();
+    public static void main(String[] args) {
+        int a[] = { 4, 6, 3, 7 };
+        System.out.println(countTriangles(a));
     }
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
-        int n = nums.length; 
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(nums);
 
-        for (int i = 0; i < n; i++) {
-            // avoid the duplicates while moving i:
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-            for (int j = i + 1; j < n; j++) {
-                // avoid the duplicates while moving j:
-                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+    /*public static int countTriangles(int[] arr) {
+        int n = arr.length;
+        int count = 0;
 
-                // 2 pointers:
-                int k = j + 1;
-                int l = n - 1;
-                while (k < l) {
-                    long sum = nums[i];
-                    sum += nums[j];
-                    sum += nums[k];
-                    sum += nums[l];
-                    if (sum == target) {
-                        List<Integer> temp = new ArrayList<>();
-                        temp.add(nums[i]);
-                        temp.add(nums[j]);
-                        temp.add(nums[k]);
-                        temp.add(nums[l]);
-                        ans.add(temp);
-                        k++;
-                        l--;
-
-                        // skip the duplicates:
-                        while (k < l && nums[k] == nums[k - 1]) k++;
-                        while (k < l && nums[l] == nums[l + 1]) l--;
-                    } else if (sum < target) k++;
-                    else l--;
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (arr[i] + arr[j] > arr[k] &&
+                        arr[i] + arr[k] > arr[j] &&
+                        arr[j] + arr[k] > arr[i]) {
+                        count++;
+                    }
                 }
             }
         }
+        return count;
+    }*/
 
-        return ans;
+    /*public static int countTriangles(int[] arr) {
+        int n = arr.length;
+        int count = 0;
+        Arrays.sort(arr);
+
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                int low = j + 1, high = n - 1;
+                int idx = j;
+
+                while (low <= high) {
+                    int mid = (low + high) / 2;
+                    if (arr[i] + arr[j] > arr[mid]) {
+                        idx = mid;
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
+                }
+                count += idx - j;
+            }
+        }
+        return count;
+    }*/
+
+    public static int countTrianglesOptimal(int[] arr) {
+        int n = arr.length;
+        int count = 0;
+        Arrays.sort(arr);
+
+        for (int k = n - 1; k >= 2; k--) {
+            int i = 0, j = k - 1;
+
+            while (i < j) {
+                if (arr[i] + arr[j] > arr[k]) {
+                    count += (j - i);
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+        }
+        return count;
     }
+
 }

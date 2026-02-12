@@ -1,30 +1,40 @@
 public class Demo6 {
     public static void main(String[] args) {
-        String str = "b3c6d15";
-        int k = 5;
-        char c = findCharAtK(str, k);
-        System.out.println(c);
+        int n=6;
+        int arr[]={11, 21, 32, 45, 1, 23};
+        int num=6;
+        int sum = findPrimeFactorIndexSum(arr, n,num);
+        System.out.println(sum);
     }
 
-    public static char findCharAtK(String str, int k) {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        int len=str.length();
-        while (i < len) {
-            char current = str.charAt(i);
-            if (Character.isLetter(current)) {
-                i++;
-                int count=0;
-                while(i<len && Character.isDigit(str.charAt(i))){
-                    count+=count*10+ str.charAt(i) -'0';
-                    i++;
-                }
-                for(int j=0;j<count;j++)
-                {
-                    sb.append(current);
-                }
+    public static int findPrimeFactorIndexSum(int[] arr, int n, int num) {
+        if(n==0){
+            return -1;
+        }
+
+        int temp = num;
+        int result = 0;
+        boolean found = false;
+
+        for (int i = 2; i * i <= temp; i++) {
+            int count = 0;
+
+            while (temp % i == 0) {
+                count++;
+                temp /= i;
+            }
+
+            if (count > 0 && i < n) {
+                result += count * arr[i];
+                found = true;
             }
         }
-        return sb.charAt(k);
+
+        if (temp > 1 && temp < n) {
+            result += arr[temp];
+            found = true;
+        }
+
+        return found ? result : 0;
     }
 }

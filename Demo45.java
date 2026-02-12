@@ -1,53 +1,35 @@
-import java.util.Arrays;
-
 public class Demo45 {
     public static void main(String[] args) {
-        int arr[]={1,0,2,3,0,4,5,0};
-        duplicateZeros(arr);
-        System.out.println(Arrays.toString(arr));
+        System.out.println(missingNumber(new int[] { 1, 2, 3, 5 }));
+        System.out.println(missingNumber(new int[] { 8, 2, 4, 5, 3, 7, 1 }));
+        System.out.println(missingNumber(new int[] { 1 }));
     }
-    /*public static  void duplicateZeros(int[] arr) {
-        int n=arr.length;
-        int temp[]= new int[n];
-        int j=0;
-        for(int i=0;i<n && j<n;i++){
-            temp[j++]=arr[i];
-            if(arr[i]==0 && j<n){
-                temp[j++]=0;
-            }
-        }
 
-        for(int i=0;i<n;i++)
-        {
-            arr[i]=temp[i];
-        }
-    }*/
-    public static void duplicateZeros(int[] arr) {
-        int n = arr.length;
-        int zeros = 0;
+    /*public static int missingNumber(int[] arr) {
+        int n = arr.length + 1;
+
+        long expectedSum = (long) n * (n + 1) / 2;
+        long actualSum = 0;
 
         for (int num : arr) {
-            if (num == 0) zeros++;
+            actualSum += num;
         }
 
-        int i = n - 1;
-        int j = n + zeros - 1;
+        return (int) (expectedSum - actualSum);
+    }*/
 
-        // Step 2: move from back
-        while (i >= 0) {
-            if (j < n) {
-                arr[j] = arr[i];
-            }
+    public static int missingNumber(int[] arr) {
+        int n = arr.length + 1;
+        int xor = 0;
 
-            if (arr[i] == 0) {
-                j--;
-                if (j < n) {
-                    arr[j] = 0;
-                }
-            }
-
-            i--;
-            j--;
+        for (int i = 1; i <= n; i++) {
+            xor ^= i;
         }
+
+        for (int num : arr) {
+            xor ^= num;
+        }
+        return xor;
     }
+
 }

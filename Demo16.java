@@ -1,58 +1,85 @@
-import java.util.Set;
-import java.util.Arrays;
-import java.util.HashSet;
-
 public class Demo16 {
     public static void main(String[] args) {
-        int nums[]= {131,11,48};
-        System.out.println(Arrays.toString(common_digits(nums)));
+        char[][] board = {
+                { 'A', 'B', 'C', 'E' },
+                { 'S', 'F', 'C', 'S' },
+                { 'A', 'D', 'E', 'E' }
+        };
+
+        String word = "ABCCED";
+        System.out.println("Brute Force Result: " + exist(board, word));
+
+        System.out.println("Optimal Result: " +exist(board, word));
     }
 
-    /*public static int[] common_digits(int[] nums) {
-        Set<Integer> set = new HashSet<>();
+    /*public static boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        boolean[][] vis = new boolean[m][n];
 
-        for (int num : nums) {
-            String s = String.valueOf(num);
-            for (int i = 0; i < s.length(); i++) {
-                set.add(s.charAt(i) - '0');
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, word, i, j, 0, vis)) {
+                    return true;
+                }
             }
         }
+        return false;
+    }
 
-        
-        int[] result = new int[set.size()];
-        int idx = 0;
-        for (int digit : set) {
-            result[idx++] = digit;
-        }
+    public static boolean dfs(char[][] board, String word,
+        int r, int c, int idx, boolean[][] vis) 
+    {
+        if (idx == word.length())
+            return true;
 
-        Arrays.sort(result);
-        return result;
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length)
+            return false;
+
+        if (vis[r][c] || board[r][c] != word.charAt(idx))
+            return false;
+
+        vis[r][c] = true;
+
+        boolean found = dfs(board, word, r + 1, c, idx + 1, vis) ||
+                dfs(board, word, r - 1, c, idx + 1, vis) ||
+                dfs(board, word, r, c + 1, idx + 1, vis) ||
+                dfs(board, word, r, c - 1, idx + 1, vis);
+
+        vis[r][c] = false; // backtrack
+        return found;
     }*/
 
-    public static int[] common_digits(int[] nums) {
-        boolean[] seen = new boolean[10];
-
-        for (int num : nums) {
-            while (num > 0) {
-                int digit = num % 10;
-                seen[digit] = true;
-                num /= 10;
+    public static boolean exist(char[][] board, String word) {
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(board, word, i, j, 0)) {
+                    return true;
+                }
             }
         }
+        return false;
+    }
 
-        int count = 0;
-        for (int i = 0; i < 10; i++) {
-            if (seen[i]) count++;
-        }
+    public static boolean dfs(char[][] board, String word, int r, int c, int idx) {
+        if (idx == word.length()) return true;
+        
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length)
+            return false;
 
-        int[] result = new int[count];
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            if (seen[i]) {
-                result[idx++] = i;
-            }
-        }
+        if (board[r][c] != word.charAt(idx))
+            return false;
 
-        return result;
+        char temp = board[r][c];
+        board[r][c] = '#'; // mark visited
+
+        boolean found =
+                dfs(board, word, r + 1, c, idx + 1) ||
+                dfs(board, word, r - 1, c, idx + 1) ||
+                dfs(board, word, r, c + 1, idx + 1) ||
+                dfs(board, word, r, c - 1, idx + 1);
+
+        board[r][c] = temp; // backtrack
+        return found;
     }
 }

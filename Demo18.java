@@ -1,43 +1,65 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Demo18 {
     public static void main(String[] args) {
-        // String b1 = "11111";
-        // String b2 = "11101";
-        String b1="01001001";
-        String b2="0110101";
-        System.out.println(addBinary(b1, b2)); //1111110
+        int n = 5;
+        List<List<Integer>> ans = pascalTriangle(n);
+        for (List<Integer> it : ans) {
+            for (int ele : it) {
+                System.out.print(ele + " ");
+            }
+            System.out.println();
+        }
+    }
+   /*  public static int nCr(int n, int r) {
+        long res = 1;
+        // calculating nCr:
+        for (int i = 0; i < r; i++) {
+            res = res * (n - i);
+            res = res / (i + 1);
+        }
+        return (int) res;
+    } 
+
+       public static List<List<Integer>> pascalTriangle(int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // Store the entire Pascal's triangle:
+        for (int row = 1; row <= n; row++) {
+            List<Integer> tempLst = new ArrayList<>(); // temporary list
+            for (int col = 1; col <= row; col++) {
+                tempLst.add(nCr(row - 1, col - 1));
+            }
+            ans.add(tempLst);
+        }
+        return ans;
+    } */
+
+     public static List<Integer> generateRow(int row) {
+        long ans = 1;
+        List<Integer> ansRow = new ArrayList<>();
+        ansRow.add(1); // inserting the 1st element
+
+        // calculate the rest of the elements:
+        for (int col = 1; col < row; col++) {
+            ans = ans * (row - col);
+            ans = ans / col;
+            ansRow.add((int) ans);
+        }
+        return ansRow;
     }
 
-    public static String addBinary(String a, String b) {
-        int i = a.length() - 1;
-        int j = b.length() - 1;
-        int carry = 0;
+    public static List<List<Integer>> pascalTriangle(int n) {
+        List<List<Integer>> ans = new ArrayList<>();
 
-        StringBuilder sb = new StringBuilder();
-        while (i >= 0 || j >= 0) {
-            int sum = carry;
-            if (i >= 0) {
-                sum += a.charAt(i) - '0';
-                i--;
-            }
-
-            if (j >= 0) {
-                sum += b.charAt(j) - '0';
-                j--;
-            }
-            sb.append(sum % 2);
-            carry = sum / 2;
+        // store the entire pascal's triangle:
+        for (int row = 1; row <= n; row++) {
+            ans.add(generateRow(row));
         }
-        if (carry != 0) {
-            sb.append(carry);
-        }
-        sb.reverse();
-        int index = 0;
-        while (index < sb.length() - 1 && sb.charAt(index) == '0') {
-            index++;
-            
-        }
-        return sb.substring(index);
-        //return sb.reverse().toString();
+        return ans;
     }
+  
 
+    
 }

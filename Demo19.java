@@ -1,71 +1,58 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class Demo19 {
     public static void main(String[] args) {
-        int[] arr = { 1, 2, 3, 5, 4, 7, 10 };
-        sortIt(arr);
-        System.out.println(Arrays.toString(arr));
+        int nums[]= {131,11,48};
+        System.out.println(Arrays.toString(common_digits(nums)));
     }
 
-    /*public static void sortIt(int[] arr) {
-        List<Integer> odd = new ArrayList<>();
-        List<Integer> even = new ArrayList<>();
+    /*public static int[] common_digits(int[] nums) {
+        Set<Integer> set = new HashSet<>();
 
-        for (int num : arr) {
-            if ((num & 1) == 1)
-                odd.add(num);
-            else
-                even.add(num);
+        for (int num : nums) {
+            String s = String.valueOf(num);
+            for (int i = 0; i < s.length(); i++) {
+                set.add(s.charAt(i) - '0');
+            }
         }
 
-        odd.sort(Collections.reverseOrder());
-        even.sort(Integer::compareTo);
-
-        int index = 0;
-        for (int x : odd)
-            arr[index++] = x;
-        for (int x : even)
-            arr[index++] = x;
-    }*/
-
-    /*public static void sortIt(int[] arr) {
-
-        List<Integer> odds = Arrays.stream(arr)
-                .filter(n -> (n & 1) == 1)
-                .boxed()
-                .sorted(Collections.reverseOrder())
-                .collect(Collectors.toList());
-
-        List<Integer> evens = Arrays.stream(arr)
-                .filter(n -> (n & 1) == 0)
-                .boxed()
-                .sorted()
-                .collect(Collectors.toList());
-
+        
+        int[] result = new int[set.size()];
         int idx = 0;
-        for (int x : odds)
-            arr[idx++] = x;
-        for (int x : evens)
-            arr[idx++] = x;
+        for (int digit : set) {
+            result[idx++] = digit;
+        }
+
+        Arrays.sort(result);
+        return result;
     }*/
 
-    public static void sortIt(int[] arr) {
-        Integer[] temp = Arrays.stream(arr).boxed().toArray(Integer[]::new);
-        Arrays.sort(temp, (a, b) -> {
+    public static int[] common_digits(int[] nums) {
+        boolean[] seen = new boolean[10];
 
-            if ((a & 1) == 1 && (b & 1) == 1)
-                return b - a; // descending
-
-            if ((a & 1) == 0 && (b & 1) == 0)
-                return a - b; // ascending
-
-            // odd comes before even
-            return (a & 1) == 1 ? -1 : 1;
-        });
-
-        for (int i = 0; i < arr.length; i++){
-            arr[i] = temp[i];
+        for (int num : nums) {
+            while (num > 0) {
+                int digit = num % 10;
+                seen[digit] = true;
+                num /= 10;
+            }
         }
+
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            if (seen[i]) count++;
+        }
+
+        int[] result = new int[count];
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            if (seen[i]) {
+                result[idx++] = i;
+            }
+        }
+
+        return result;
     }
 }
