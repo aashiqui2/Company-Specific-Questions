@@ -1,35 +1,57 @@
 public class Demo59 {
-    public static void main(String args[]) {
-        int n = 5;
-        // int[] arr = {2, 6, 5, 8, 11};
-        int[] arr = { -8, 1, 4, 6, 10, 45 };
-        int target = 16;
-        /*
-         * String res = twoSum(n, arr, target);
-         * System.out.println("This is the answer for variant 1: " + res);
-         */
-
-        int[] ans = twoSum(n, arr, target);
-        System.out.println("This is the answer for variant 2: [" + ans[0] + ", "
-                + ans[1] + "]");
+    public static void main(String[] args) {
+        //String s="leet2code3";
+        //int k=10;
+        String s="a2345678999999999999999";
+        int k=1;
+        System.out.println(decodeAtIndex(s, k));
     }
 
-    public static int[] twoSum(int n, int[] arr, int target) {
-        int[] ans = new int[2];
-        ans[0] = ans[1] = -1;
-        HashMap<Integer, Integer> mpp = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            int num = arr[i];
-            int moreNeeded = target - num;
-            if (mpp.containsKey(moreNeeded)) {
-                ans[0] = mpp.get(moreNeeded);
-                ans[1] = i;
-                return ans;
+    /*public static String decodeAtIndex(String s, int k) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                int d = c - '0';
+                String temp = sb.toString();
+                for (int i = 1; i < d; i++) {
+                    sb.append(temp);
+                }
+            } else {
+                sb.append(c);
             }
-
-            mpp.put(arr[i], i);
         }
-        return ans;
+        //System.out.println(sb);
+        return sb.substring(k-1, k);
+    }*/
+
+    public static String decodeAtIndex(String s, int k) {
+        long length = 0;
+
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                length *= (c - '0');
+            } else {
+                length++;
+            }
+        }
+
+        //traverse backwards
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+
+            if (Character.isDigit(c)) {
+                int d = c - '0';
+                length /= d;
+                k %= length;//k=(int)k%length;
+            } else {
+                if (k == 0 || k == length) {
+                    return String.valueOf(c);
+                }
+                length--;
+            }
+        }
+
+        return "";
     }
 
 }

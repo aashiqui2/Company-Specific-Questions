@@ -1,30 +1,41 @@
 public class Demo8 {
     public static void main(String[] args) {
-        String str = "b3c6d15";
-        int k = 5;
-        char c = findCharAtK(str, k);
-        System.out.println(c);
+        int arr[] = { 1, 3, 5, 2, 2 };
+        int result = equilibriumIndex(arr, arr.length);
+        System.out.println(result);
     }
 
-    public static char findCharAtK(String str, int k) {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        int len=str.length();
-        while (i < len) {
-            char current = str.charAt(i);
-            if (Character.isLetter(current)) {
-                i++;
-                int count=0;
-                while(i<len && Character.isDigit(str.charAt(i))){
-                    count+=count*10+ str.charAt(i) -'0';
-                    i++;
-                }
-                for(int j=0;j<count;j++)
-                {
-                    sb.append(current);
-                }
+    /*public static int equilibriumIndex(int[] arr, int n) {
+        for (int i = 0; i < n; i++) {
+            int leftSum = 0;
+            for (int l = 0; l < i; l++) {
+                leftSum += arr[l];
+            }
+            int rightSum = 0;
+            for (int r = i + 1; r < n; r++) {
+                rightSum += arr[r];
+            }
+            if (leftSum == rightSum) {
+                return i;
             }
         }
-        return sb.charAt(k);
+        return -1;
+    }*/
+
+    public static int equilibriumIndex(int[] arr, int n) {
+        int totalSum = 0;
+        for (int x : arr) {
+            totalSum += x;
+        }
+        int leftSum = 0;
+        for (int i = 0; i < n; i++) {
+           int rightSum = totalSum - leftSum - arr[i];
+            if (leftSum == rightSum) {
+                return i;
+            }
+            leftSum += arr[i];
+        }
+        return -1; 
     }
+
 }

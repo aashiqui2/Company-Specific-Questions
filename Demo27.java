@@ -1,80 +1,66 @@
-import java.util.Arrays;
+import java.util.*;
+
+class Item {
+    int value;
+    int weight;
+
+    Item(int value, int weight) {
+        this.value = value;
+        this.weight = weight;
+    }
+}
 
 public class Demo27 {
+    public static double fractionalKnapsack(int capacity, Item[] items) {
+        Arrays.sort(items,(a,b) ->{
+                return Double.compare(
+                    (double) b.value / b.weight,
+                    (double) a.value / a.weight
+                ); // descending
+            }
+        );
+
+
+        double totalValue = 0.0;
+
+        for (Item item : items) {
+
+            if (capacity >= item.weight) {
+                // Take full item
+                capacity -= item.weight;
+                totalValue += item.value;
+            } else {
+                // Take fractional part
+                totalValue += ((double)item.value / item.weight) * capacity; //(V/W)*C
+                break;
+            }
+        }
+
+        return totalValue;
+    }
     public static void main(String[] args) {
-        int[] coins = {1, 2, 5};
-        int sum = 11;
-        //! This fails for greedy approach
-        // int[] coins = {9, 6, 5, 1};
-        // int sum = 11;
-        System.out.println(coinChange(coins, sum));
+
+        // Item[] items = {
+        //     new Item(60, 10),
+        //     new Item(100, 20),
+        //     new Item(120, 30)
+        // };
+
+        // int capacity = 50;
+        Item[] items = {
+            new Item(1, 4),
+            new Item(5, 9),
+            new Item(7, 6),
+            new Item(2, 3),
+            new Item(7, 7),
+            new Item(10, 3)
+        };
+
+        int capacity = 24;
+
+
+        double result = fractionalKnapsack(capacity, items);
+        System.out.println("Maximum value = " + result);
     }
-    
-    //! Greedy Approach
-    /*public static int coinChange(int[] coins,int sum)
-    {
-        Arrays.sort(coins);
-        int count = 0;
-        int remaining = sum;
-
-        for (int i = coins.length - 1; i >= 0; i--) {
-            while (remaining >= coins[i]) {
-                remaining -= coins[i];
-                count++;
-            }
-        }
-
-        if (remaining == 0){
-           return count;
-        }
-        else{
-           return -1;
-        }
-    }*/
-
-    //! Memoization Approach
-    /*public static int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount + 1];
-        Arrays.fill(dp, -2);
-        return helper(coins, amount, dp);
-    }
-
-    private static int helper(int[] coins, int rem, int[] dp) {
-        if (rem == 0) return 0;
-
-        if (rem < 0) return -1;
-
-        if (dp[rem] != -2) return dp[rem];
-
-        int mini = Integer.MAX_VALUE;
-
-        for (int coin : coins) {
-           
-            int res = helper(coins, rem - coin, dp);
-            if (res >= 0 && res < mini)
-                mini = 1 + res;
-        }
-        dp[rem] = (mini == Integer.MAX_VALUE) ? -1 : mini;
-        return dp[rem];
-    }*/
-
-    //! Tabulation
-    public static int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = 0;
-
-        for (int i = 1; i <= amount; i++) {
-            for (int coin : coins) {
-                // If coin can be used
-                if (i - coin >= 0 && dp[i - coin] != Integer.MAX_VALUE) {
-                    // Update dp[i] with minimum coins
-                    dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
-                }
-            }
-        }
-
-        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
-    }
-   
 }
+

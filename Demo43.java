@@ -1,30 +1,32 @@
 public class Demo43 {
     public static void main(String[] args) {
-        int[] nums = { 1, 2, 1, 3, 2, 5 };
-        int[] res = singleNumber(nums);
+        int[] nums1 = { 1, 1, 2, 3, 3, 4, 4, 8, 8 };
+        System.out.println(singleNonDuplicate(nums1)); 
 
-        System.out.println(res[0] + " " + res[1]);
+        int[] nums2 = { 3, 3, 7, 7, 10, 11, 11 };
+        System.out.println(singleNonDuplicate(nums2)); 
     }
 
-    public static int[] singleNumber(int[] nums) {
-        int xor = 0;
+    public static int singleNonDuplicate(int[] nums) {
+        int low = 0, high = nums.length - 1;
 
-        for (int num : nums) {
-            xor ^= num;
-        }
+        while (low < high) {
+            int mid = (low + high) / 2;
 
-        int diffBit = xor & (-xor);
+            // Ensure mid is even
+            if (mid % 2 == 1)
+                mid--;
 
-        int a = 0, b = 0;
-
-        for (int num : nums) {
-            if ((num & diffBit) == 0) {
-                a ^= num;
+            if (nums[mid] == nums[mid + 1]) {
+                // Single element is after this pair
+                low = mid + 2;
             } else {
-                b ^= num;
+                // Single element is before this pair (could be mid)
+                high = mid;
             }
         }
-        return new int[] { a, b };
+
+        return nums[low];
     }
 
 }

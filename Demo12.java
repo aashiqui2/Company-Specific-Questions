@@ -1,61 +1,37 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Demo12 {
     public static void main(String[] args) {
-        String str = "geeksogeeks";
-        if (canFormPalindrome(str)) {
-            System.out.println("Yes");
-        } else {
-            System.out.println("No");
-        }
+        // int nums[]={1,2,2};
+        int nums[] = { 3, 2, 1, 2, 1, 7 };
+        int moves = minIncrementForUnique(nums);
+        System.out.println(moves);
     }
+    /*public static int minIncrementForUnique(int[] nums) {
+        Set<Integer> used = new HashSet<>();
+        int moves = 0;
 
-    /*public static boolean canFormPalindrome(String s) {
-        int oddCount = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int count = 0;
-            for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(i) == s.charAt(j)) {
-                    count++;
-                }
+        for (int i = 0; i < nums.length; i++) {
+            while (used.contains(nums[i])) {
+                nums[i]++;     
+                moves++;
             }
-            if (count % 2 != 0) {
-                oddCount++;
-            }
+            used.add(nums[i]);
         }
-        if (oddCount <= 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return moves;
     }*/
 
-    /*public static boolean canFormPalindrome(String s) {
-        Map<Character, Integer> freq = new HashMap<>();
-        for (char c : s.toCharArray()) {
-            freq.put(c, freq.getOrDefault(c, 0) + 1);
-        }
-        int oddCount = 0;
-        for (int count : freq.values()) {
-            if (count % 2 != 0) {
-                oddCount++;
+    public static int minIncrementForUnique(int[] nums) {
+        Arrays.sort(nums);
+        int moves = 0;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] <= nums[i - 1]) {
+                int target = nums[i - 1] + 1;
+                moves += target - nums[i];
+                nums[i] = target;
             }
         }
-        return (oddCount <= 1) ? true : false;
-    }*/
-
-    public static boolean canFormPalindrome(String s) {
-        int[] freq = new int[26];
-        for (char c : s.toCharArray()) {
-            freq[c - 'a']++;
-        }
-        int oddCount = 0;
-        for (int f : freq) {
-            if (f % 2 != 0)
-                oddCount++;
-        }
-        return oddCount <= 1 ? true : false;
+        return moves;
     }
-
 }

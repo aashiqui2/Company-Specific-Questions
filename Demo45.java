@@ -1,35 +1,30 @@
 public class Demo45 {
     public static void main(String[] args) {
-        System.out.println(missingNumber(new int[] { 1, 2, 3, 5 }));
-        System.out.println(missingNumber(new int[] { 8, 2, 4, 5, 3, 7, 1 }));
-        System.out.println(missingNumber(new int[] { 1 }));
+        int[] nums = { 1, 2, 1, 3, 2, 5 };
+        int[] res = singleNumber(nums);
+
+        System.out.println(res[0] + " " + res[1]);
     }
 
-    /*public static int missingNumber(int[] arr) {
-        int n = arr.length + 1;
-
-        long expectedSum = (long) n * (n + 1) / 2;
-        long actualSum = 0;
-
-        for (int num : arr) {
-            actualSum += num;
-        }
-
-        return (int) (expectedSum - actualSum);
-    }*/
-
-    public static int missingNumber(int[] arr) {
-        int n = arr.length + 1;
+    public static int[] singleNumber(int[] nums) {
         int xor = 0;
 
-        for (int i = 1; i <= n; i++) {
-            xor ^= i;
-        }
-
-        for (int num : arr) {
+        for (int num : nums) {
             xor ^= num;
         }
-        return xor;
+
+        int diffBit = xor & (-xor);
+
+        int a = 0, b = 0;
+
+        for (int num : nums) {
+            if ((num & diffBit) == 0) {
+                a ^= num;
+            } else {
+                b ^= num;
+            }
+        }
+        return new int[] { a, b };
     }
 
 }

@@ -1,42 +1,29 @@
 public class Demo38 {
     public static void main(String[] args) {
-        System.out.println(findTheDifferenceSort("abcd", "abcde")); // Output: e
-        System.out.println(findTheDifferenceSort("", "y")); // Output: y
+        int n = 13;
+        System.out.println(isTwistedPrime(n)); 
     }
-
-    /*public static char findTheDifferenceSort(String s, String t) {
-        char[] sArr = s.toCharArray();
-        char[] tArr = t.toCharArray();
-        Arrays.sort(sArr);
-        Arrays.sort(tArr);
-
-        for (int i = 0; i < sArr.length; i++) {
-            if (sArr[i] != tArr[i])
-                return tArr[i];
-        }
-        return tArr[tArr.length - 1]; // the extra letter is at the end
-    }*/
-
-    /*public static char findTheDifferenceMap(String s, String t) {
-        int[] freq = new int[26];
-        for (char c : s.toCharArray())
-            freq[c - 'a']++;
-
-        for (char c : t.toCharArray()) {
-            if (freq[c - 'a'] == 0)
-                return c;
-            freq[c - 'a']--;
-        }
-        return ' '; // should never reach here
-    }*/
-
-    public static char findTheDifferenceXOR(String s, String t) {
-        int xor = 0;
-        for (char c : s.toCharArray())
-            xor ^= c;
-        for (char c : t.toCharArray())
-            xor ^= c;
-        return (char) xor;
+    public static int isTwistedPrime(int N) {
+       if(isPrime(N) && isPrime(rev(N)) ){
+           return 1;
+       }
+       return 0;
     }
-
+    
+    public static  boolean isPrime(int n){
+        for(int i=2;i*i<=n;i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static int rev(int n){
+        int sum=0;
+        for(int i=n;i>0;i=i/10){
+            sum=sum*10+(i%10);
+        }
+        return sum;
+    }
 }

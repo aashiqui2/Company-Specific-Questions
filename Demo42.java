@@ -1,24 +1,16 @@
 public class Demo42 {
     public static void main(String[] args) {
-        int nums[]={2,2,3,2};
-        System.out.println(singleNumber(nums));
+        int[] arr = { 4, 1, 2, 1, 2 };
+        int ans = getSingleElement(arr);
+        System.out.println("The single element is: " + ans);
     }
-    public static int singleNumber(int[] nums) {
-        int result = 0;
 
-        for (int bit = 0; bit < 32; bit++) {
-            int count = 0;
-
-            for (int num : nums) {
-                if (((num >> bit) & 1) == 1) {
-                    count++;
-                }
-            }
-
-            if (count % 3 == 1) {
-                result |= (1 << bit);
-            }
+    public static int getSingleElement(int[] arr) {
+        int n = arr.length;
+        int xorr = 0;
+        for (int i = 0; i < n; i++) {
+            xorr = xorr ^ arr[i];
         }
-        return result;
+        return xorr;
     }
 }

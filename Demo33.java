@@ -1,21 +1,42 @@
 public class Demo33 {
     public static void main(String[] args) {
-        int n=10;
-        printNumber(n);
+        // String A="gksrek";
+        // String B="geeksforgeeks";
+        String A = "AXY";
+        String B = "YADXCP";
+        System.out.println(isSubsequence(A, B));
     }
-    public static void printNumber(int n){
-        for(int i=2;i<=n;i++){
-            if(isPrime(i)){
-                System.out.print(i+" ");
+
+    /*public static int isSubsequence(String A, String B) {
+        int j = 0;
+        for (int i = 0; i < A.length(); i++) {
+            boolean found = false;
+            while (j < B.length()) {
+                if (A.charAt(i) == B.charAt(j)) {
+                    found = true;
+                    j++;
+                    break;
+                }
+                j++;
+            }
+            if (!found) {
+                return 0;
             }
         }
-    }
-    public static boolean isPrime(int n){
-        for(int i=2;i*i<=n;i++){
-            if(n%i==0){
-                return false;
+        return 1;
+    }*/
+
+    public static int isSubsequence(String A, String B) {
+        int i = 0; // pointer for A
+        int j = 0; // pointer for B
+
+        while (i < A.length() && j < B.length()) {
+            if (A.charAt(i) == B.charAt(j)) {
+                i++; // match found, move A
             }
+            j++; // always move B
         }
-        return true;
+
+        return (i == A.length()) ? 1 : 0;
     }
 }

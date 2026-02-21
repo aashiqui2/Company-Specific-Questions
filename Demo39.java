@@ -1,27 +1,33 @@
 public class Demo39 {
     public static void main(String[] args) {
-        int[] arr = { 1, 0, 2, 3, 2, 0, 0, 4, 5, 1 };
-        int n = 10;
-        int[] ans = moveZeros(n, arr);
-        for (int i = 0; i < n; i++) {
-            System.out.print(ans[i] + " ");
-        }
-        System.out.println("");
+        int[] arr1 = { 2, 4, 6, 8, 9, 10, 12 };
+        int[] arr2 = { 2, 4, 6, 8, 10, 12 };
+        System.out.println(findExtra(arr1, arr2));
     }
 
-    public static int[] moveZeros(int n, int[] arr) {
-        int index = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] != 0) {
-                if (i != index) {
-                    int temp = arr[i];
-                    arr[i] = arr[index];
-                    arr[index] = temp;
-                }
-                index++;
+    /*public static int findExtra(int[] arr1, int[] arr2) {
+        int n = arr2.length;
+
+        for (int i = 0; i < n; i++) {
+            if (arr1[i] != arr2[i]) {
+                return i;
             }
         }
-        return arr;
+        return n;
+    }*/
+
+    public static int findExtra(int[] arr1, int[] arr2) {
+        int low = 0, high = arr2.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (arr1[mid] == arr2[mid]) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
     }
 
 }

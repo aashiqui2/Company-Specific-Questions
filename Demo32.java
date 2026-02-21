@@ -1,44 +1,38 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Demo32 {
-     public static void main(String[] args) {
-        int[] A = { 20, 7 };
-        int[] B = { 11, 5 };
-
-        System.out.println(Arrays.toString(leastPrimeToAdd(A, B)));
+    public static void main(String[] args) {
+        //int nums[] = { -1, 1, -6, 4, 5, -6, 1, 4, 1 };
+        //int nums[]={1,2,3,4};
+        int nums[]={1,1,2,2,2,3};
+        System.out.println(Arrays.toString(frequencySort(nums)));
+        //! Problem rule:
+        // 1.Lower frequency first
+        // 2.If same frequency → larger value first
     }
-    
-    // 1 is considered prime as per problem statement
-    static boolean isPrime(int n) {
-        if (n == 1)
-            return true;
-        if (n < 2)
-            return false;
 
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0)
-                return false;
+    public static int[] frequencySort(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int val : nums) {
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
         }
-        return true;
-    }
 
-    static int[] leastPrimeToAdd(int[] A, int[] B) {
-        int n = A.length;
-        int[] result = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            int ans = -1;
-
-            for (int p = 1; p < 1000; p++) {
-                if (isPrime(p) && (A[i] + p) % B[i] == 0) {
-                    ans = p;
-                    break;
-                }
+        Integer[] arr = new Integer[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            arr[i] = nums[i];
+        }
+        Arrays.sort(arr, (a, b) -> {
+            if (!freq.get(a).equals(freq.get(b))) {
+                return freq.get(a) - freq.get(b);
             }
+            return b - a;
+        });
 
-            result[i] = ans;
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = arr[i];
         }
-        return result;
-    }
 
+        return nums;
+
+    }
 }

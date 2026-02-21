@@ -1,43 +1,49 @@
+import java.util.*;
+
 public class Demo21 {
     public static void main(String[] args) {
-        // String b1 = "11111";
-        // String b2 = "11101";
-        String b1="01001001";
-        String b2="0110101";
-        System.out.println(addBinary(b1, b2)); //1111110
+        int nuums[]={3,1,2,4};
+        System.out.println(Arrays.toString(sortArrayByParity(nuums)));
     }
-
-    public static String addBinary(String a, String b) {
-        int i = a.length() - 1;
-        int j = b.length() - 1;
-        int carry = 0;
-
-        StringBuilder sb = new StringBuilder();
-        while (i >= 0 || j >= 0) {
-            int sum = carry;
-            if (i >= 0) {
-                sum += a.charAt(i) - '0';
-                i--;
-            }
-
-            if (j >= 0) {
-                sum += b.charAt(j) - '0';
-                j--;
-            }
-            sb.append(sum % 2);
-            carry = sum / 2;
-        }
-        if (carry != 0) {
-            sb.append(carry);
-        }
-        sb.reverse();
+    /*
+    public static int[] sortArrayByParityExtra(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
         int index = 0;
-        while (index < sb.length() - 1 && sb.charAt(index) == '0') {
-            index++;
-            
-        }
-        return sb.substring(index);
-        //return sb.reverse().toString();
-    }
 
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                result[index++] = num;
+            }
+        }
+
+        for (int num : nums) {
+            if (num % 2 != 0) {
+                result[index++] = num;
+            }
+        }
+
+        return result;
+    }
+    */
+
+    public static int[] sortArrayByParity(int[] nums) {
+        int i = 0, j = nums.length - 1;
+
+        while (i < j) {
+            while (i < j && nums[i] % 2 == 0)
+                i++;
+
+            while (i < j && nums[j] % 2 != 0)
+                j--;
+
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+
+        return nums;
+    }
 }

@@ -1,71 +1,53 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Demo22 {
+
     public static void main(String[] args) {
-        int[] arr = { 1, 2, 3, 5, 4, 7, 10 };
-        sortIt(arr);
-        System.out.println(Arrays.toString(arr));
+        int[] nums = { 4, 2, 5, 7 };
+        System.out.println(Arrays.toString(sortArrayByParityIIExtra(nums)));
     }
 
-    /*public static void sortIt(int[] arr) {
-        List<Integer> odd = new ArrayList<>();
-        List<Integer> even = new ArrayList<>();
+    /*public static int[] sortArrayByParityIIExtra(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int evenIndex = 0;
+        int oddIndex = 1;
 
-        for (int num : arr) {
-            if ((num & 1) == 1)
-                odd.add(num);
-            else
-                even.add(num);
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                result[evenIndex] = num;
+                evenIndex += 2;
+            } else {
+                result[oddIndex] = num;
+                oddIndex += 2;
+            }
         }
-
-        odd.sort(Collections.reverseOrder());
-        even.sort(Integer::compareTo);
-
-        int index = 0;
-        for (int x : odd)
-            arr[index++] = x;
-        for (int x : even)
-            arr[index++] = x;
+        return result;
     }*/
 
-    /*public static void sortIt(int[] arr) {
+    public static int[] sortArrayByParityIIExtra(int[] nums) {
+        int n = nums.length;
+        int evenIndex = 0;
+        int oddIndex = 1;
 
-        List<Integer> odds = Arrays.stream(arr)
-                .filter(n -> (n & 1) == 1)
-                .boxed()
-                .sorted(Collections.reverseOrder())
-                .collect(Collectors.toList());
+        while (evenIndex < n && oddIndex < n) {
+            if (nums[evenIndex] % 2 == 0) {
+                evenIndex += 2;
+                continue;
+            }
+            if (nums[oddIndex] % 2 == 1) {
+                oddIndex += 2;
+                continue;
+            }
+            // swap wrong elements
+            int temp = nums[evenIndex];
+            nums[evenIndex] = nums[oddIndex];
+            nums[oddIndex] = temp;
 
-        List<Integer> evens = Arrays.stream(arr)
-                .filter(n -> (n & 1) == 0)
-                .boxed()
-                .sorted()
-                .collect(Collectors.toList());
-
-        int idx = 0;
-        for (int x : odds)
-            arr[idx++] = x;
-        for (int x : evens)
-            arr[idx++] = x;
-    }*/
-
-    public static void sortIt(int[] arr) {
-        Integer[] temp = Arrays.stream(arr).boxed().toArray(Integer[]::new);
-        Arrays.sort(temp, (a, b) -> {
-
-            if ((a & 1) == 1 && (b & 1) == 1)
-                return b - a; // descending
-
-            if ((a & 1) == 0 && (b & 1) == 0)
-                return a - b; // ascending
-
-            // odd comes before even
-            return (a & 1) == 1 ? -1 : 1;
-        });
-
-        for (int i = 0; i < arr.length; i++){
-            arr[i] = temp[i];
+            evenIndex += 2;
+            oddIndex += 2;
         }
+        return nums;
     }
+
 }

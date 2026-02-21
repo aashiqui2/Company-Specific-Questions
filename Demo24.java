@@ -1,53 +1,25 @@
-import java.util.Arrays;
-
 public class Demo24 {
-
     public static void main(String[] args) {
-        int[] nums = { 4, 2, 5, 7 };
-        System.out.println(Arrays.toString(sortArrayByParityIIExtra(nums)));
+        countCurrency(1500);
     }
+    //! Greedy Approach
+    public static void countCurrency(int amount)
+    {
+        int[] notes = new int[]{ 2000, 500, 200, 100, 50, 20, 10, 5, 1 };
+        int[] noteCounter = new int[notes.length];
 
-    /*public static int[] sortArrayByParityIIExtra(int[] nums) {
-        int n = nums.length;
-        int[] result = new int[n];
-        int evenIndex = 0;
-        int oddIndex = 1;
-
-        for (int num : nums) {
-            if (num % 2 == 0) {
-                result[evenIndex] = num;
-                evenIndex += 2;
-            } else {
-                result[oddIndex] = num;
-                oddIndex += 2;
+        for (int i = 0; i < notes.length; i++) {
+            while (amount >= notes[i]) {
+                noteCounter[i] = amount / notes[i];
+                amount = amount % notes[i];
             }
         }
-        return result;
-    }*/
-
-    public static int[] sortArrayByParityIIInPlace(int[] nums) {
-        int n = nums.length;
-        int evenIndex = 0;
-        int oddIndex = 1;
-
-        while (evenIndex < n && oddIndex < n) {
-            if (nums[evenIndex] % 2 == 0) {
-                evenIndex += 2;
-                continue;
+     
+        System.out.println("Currency Count ->");
+        for (int i = 0; i < 9; i++) {
+            if (noteCounter[i] != 0) {
+                System.out.println(notes[i] + " : "+ noteCounter[i]);
             }
-            if (nums[oddIndex] % 2 == 1) {
-                oddIndex += 2;
-                continue;
-            }
-            // swap wrong elements
-            int temp = nums[evenIndex];
-            nums[evenIndex] = nums[oddIndex];
-            nums[oddIndex] = temp;
-
-            evenIndex += 2;
-            oddIndex += 2;
         }
-        return nums;
     }
-
 }

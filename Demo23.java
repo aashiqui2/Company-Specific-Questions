@@ -1,51 +1,45 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Demo23 {
     public static void main(String[] args) {
-        int nuums[]={3,1,2,4};
-        System.out.println(Arrays.toString(sortArrayByParity(nuums)));
+        int[] nums1 = { 4, 1, 2, 3 };
+        System.out.println(Arrays.toString(sortEvenOddIndices(nums1))); // [2,3,4,1]
+
+        int[] nums2 = { 2,1};
+        System.out.println(Arrays.toString(sortEvenOddIndices(nums2))); // [2,1]
     }
-    /*
-    public static int[] sortArrayByParityExtra(int[] nums) {
+
+    public static int[] sortEvenOddIndices(int[] nums) {
         int n = nums.length;
-        int[] result = new int[n];
-        int index = 0;
+        if(n<=2){
+            return nums;
+        }
+        List<Integer> evenList = new ArrayList<>();
+        List<Integer> oddList = new ArrayList<>();
 
-        // Place evens first
-        for (int num : nums) {
-            if (num % 2 == 0) {
-                result[index++] = num;
+        // Step 1: Separate even and odd indices
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) {
+                evenList.add(nums[i]);
+            } else {
+                oddList.add(nums[i]);
             }
         }
 
-        // Place odds next
-        for (int num : nums) {
-            if (num % 2 != 0) {
-                result[index++] = num;
+        Collections.sort(evenList);
+
+        oddList.sort(Collections.reverseOrder());
+
+        int evenIndex = 0, oddIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (i % 2 == 0) {
+                nums[i] = evenList.get(evenIndex++);
+            } else {
+                nums[i] = oddList.get(oddIndex++);
             }
-        }
-
-        return result;
-    }
-        */
-
-    public static int[] sortArrayByParity(int[] nums) {
-        int i = 0, j = nums.length - 1;
-
-        while (i < j) {
-            while (i < j && nums[i] % 2 == 0)
-                i++;
-
-            while (i < j && nums[j] % 2 != 0)
-                j--;
-
-            int temp = nums[i];
-            nums[i] = nums[j];
-            nums[j] = temp;
-            i++;
-            j--;
         }
 
         return nums;
     }
+
 }

@@ -1,61 +1,53 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Demo62 {
-     public static void main(String[] args) {
-        int[] nums = {4, 3, 3, 4, 4, 2, 1, 2, 1, 1};
-        int target = 9;
-        List<List<Integer>> ans = fourSum(nums, target);
-        System.out.println("The quadruplets are: ");
-        for (List<Integer> it : ans) {
-            System.out.print("[");
-            for (int ele : it) {
-                System.out.print(ele + " ");
-            }
-            System.out.print("] ");
-        }
-        System.out.println();
+    public static void main(String[] args) {
+        int arr[]={1,0,2,3,0,4,5,0};
+        duplicateZeros(arr);
+        System.out.println(Arrays.toString(arr));
     }
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
-        int n = nums.length; 
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(nums);
+    /*public static  void duplicateZeros(int[] arr) {
+        int n=arr.length;
+        int temp[]= new int[n];
+        int j=0;
+        for(int i=0;i<n && j<n;i++){
+            temp[j++]=arr[i];
+            if(arr[i]==0 && j<n){
+                temp[j++]=0;
+            }
+        }
 
-        for (int i = 0; i < n; i++) {
-            // avoid the duplicates while moving i:
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-            for (int j = i + 1; j < n; j++) {
-                // avoid the duplicates while moving j:
-                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+        for(int i=0;i<n;i++)
+        {
+            arr[i]=temp[i];
+        }
+    }*/
+    public static void duplicateZeros(int[] arr) {
+        int n = arr.length;
+        int zeros = 0;
 
-                // 2 pointers:
-                int k = j + 1;
-                int l = n - 1;
-                while (k < l) {
-                    long sum = nums[i];
-                    sum += nums[j];
-                    sum += nums[k];
-                    sum += nums[l];
-                    if (sum == target) {
-                        List<Integer> temp = new ArrayList<>();
-                        temp.add(nums[i]);
-                        temp.add(nums[j]);
-                        temp.add(nums[k]);
-                        temp.add(nums[l]);
-                        ans.add(temp);
-                        k++;
-                        l--;
+        for (int num : arr) {
+            if (num == 0) zeros++;
+        }
 
-                        // skip the duplicates:
-                        while (k < l && nums[k] == nums[k - 1]) k++;
-                        while (k < l && nums[l] == nums[l + 1]) l--;
-                    } else if (sum < target) k++;
-                    else l--;
+        int i = n - 1;
+        int j = n + zeros - 1;
+
+        // Step 2: move from back
+        while (i >= 0) {
+            if (j < n) {
+                arr[j] = arr[i];
+            }
+
+            if (arr[i] == 0) {
+                j--;
+                if (j < n) {
+                    arr[j] = 0;
                 }
             }
-        }
 
-        return ans;
+            i--;
+            j--;
+        }
     }
 }

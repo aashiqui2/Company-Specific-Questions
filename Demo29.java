@@ -1,69 +1,69 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 public class Demo29 {
+
     public static void main(String[] args) {
-        // int arr[]={5,5,4,6,4};
-        //int arr[] = { 9, 9, 9, 2, 5 };
-        int arr[]={1,2,3,4};
-        sortByFrequency(arr);
-        //! Problem rule: 
-        // 1.Higher frequency first 
-        // 2.If same frequency → smaller value first
+
+        int[] weights = {3, 4, 6, 5};
+        int[] profits = {2, 3, 1, 4};
+        int capacity = 8;
+
+        //int maxProfit = knapsack(weights, profits, capacity,0, 0, 0);
+        int maxProfit = knapsack(weights, profits, capacity);
+
+        System.out.println("Maximum Profit = " + maxProfit);
     }
 
-    /*public static void sortByFrequency(int[] arr) {
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int num : arr) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
-        }
+    /*
+    public static int knapsack(int[] weights, int[] profits,
+                               int capacity,
+                               int index,
+                               int currentWeight,
+                               int currentProfit) {
 
-        List<Integer> elements = new ArrayList<>(freq.keySet());
+        if (index == weights.length) {
 
-        elements.sort((a, b) -> {
-            if (!freq.get(a).equals(freq.get(b))) {
-                return freq.get(b) - freq.get(a);
+            if (currentWeight <= capacity) {
+                return currentProfit;
             }
-            return a - b;
-        });
-
-        for (int num : elements) {
-            for (int i = 0; i < freq.get(num); i++) {
-                System.out.print(num + " ");
-            }
-        }
-        System.out.println();
-    }*/
-
-   public static void sortByFrequency(int[] arr) {
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int num : arr) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
+            return 0;
         }
 
-        TreeMap<Integer, Integer> tree = new TreeMap<>(
-            (a, b) -> {
-                if (!freq.get(a).equals(freq.get(b))) {
-                    return freq.get(b) - freq.get(a); // higher frequency first
+        int exclude = knapsack(weights, profits, capacity,
+                               index + 1,
+                               currentWeight,
+                               currentProfit);
+
+       
+        int include = 0;
+        if (currentWeight + weights[index] <= capacity) {
+            include = knapsack(weights, profits, capacity,
+                               index + 1,
+                               currentWeight + weights[index],
+                               currentProfit + profits[index]);
+        }
+        return Math.max(include, exclude);
+    }
+    */
+
+    public static int knapsack(int[] weights,int[] profits,int capacity){
+        int n = weights.length;
+
+        int[][] dp = new int[n + 1][capacity + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 0; w <= capacity; w++) {
+
+                // Not take item
+                dp[i][w] = dp[i - 1][w];
+
+                // Take item if possible
+                if (weights[i - 1] <= w) {
+                    dp[i][w] = Math.max(
+                            dp[i][w],
+                            profits[i - 1] + dp[i - 1][w - weights[i - 1]]
+                    );
                 }
-                return a - b; // smaller value first
-            }
-        );
-
-        tree.putAll(freq);
-
-    
-        for (Map.Entry<Integer, Integer> entry : tree.entrySet()) {
-            int value = entry.getKey();
-            int count = entry.getValue();
-
-            for (int i = 0; i < count; i++) {
-                System.out.print(value + " ");
             }
         }
-        System.out.println();
+       return dp[n][capacity];
     }
 }

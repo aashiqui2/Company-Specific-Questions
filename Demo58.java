@@ -1,53 +1,75 @@
-import java.util.Arrays;
-
 public class Demo58 {
     public static void main(String[] args) {
-        int arr[]={1,0,2,3,0,4,5,0};
-        duplicateZeros(arr);
-        System.out.println(Arrays.toString(arr));
+        String s = "a0b1c2";
+        System.out.println(reformat(s));
     }
-    /*public static  void duplicateZeros(int[] arr) {
-        int n=arr.length;
-        int temp[]= new int[n];
-        int j=0;
-        for(int i=0;i<n && j<n;i++){
-            temp[j++]=arr[i];
-            if(arr[i]==0 && j<n){
-                temp[j++]=0;
+
+    /*public static String reformat(String s) {
+        StringBuilder letters = new StringBuilder();
+        StringBuilder digits = new StringBuilder();
+
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                digits.append(ch);
+            } else {
+                letters.append(ch);
             }
         }
-
-        for(int i=0;i<n;i++)
-        {
-            arr[i]=temp[i];
+        // If difference > 1 → impossible
+        if (Math.abs(letters.length() - digits.length()) > 1) {
+            return "";
         }
+
+        boolean letterTurn = letters.length() >= digits.length();
+
+        StringBuilder ans = new StringBuilder();
+        int i = 0, j = 0;
+
+        while (i < letters.length() || j < digits.length()) {
+            if (letterTurn && i < letters.length()) {
+                ans.append(letters.charAt(i++));
+            } else if (!letterTurn && j < digits.length()) {
+                ans.append(digits.charAt(j++));
+            }
+            letterTurn = !letterTurn;
+        }
+
+        return ans.toString();
     }*/
-    public static void duplicateZeros(int[] arr) {
-        int n = arr.length;
-        int zeros = 0;
 
-        for (int num : arr) {
-            if (num == 0) zeros++;
+    public static String reformat(String s) {
+        StringBuilder letters = new StringBuilder();
+        StringBuilder digits = new StringBuilder();
+
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                digits.append(ch);
+            } else {
+                letters.append(ch); 
+            }
         }
 
-        int i = n - 1;
-        int j = n + zeros - 1;
-
-        // Step 2: move from back
-        while (i >= 0) {
-            if (j < n) {
-                arr[j] = arr[i];
-            }
-
-            if (arr[i] == 0) {
-                j--;
-                if (j < n) {
-                    arr[j] = 0;
-                }
-            }
-
-            i--;
-            j--;
+        // If difference > 1 → impossible
+        if (Math.abs(letters.length() - digits.length()) > 1) {
+            return "";
         }
+
+        StringBuilder res = new StringBuilder();
+
+   
+        if (digits.length() > letters.length()) {
+            StringBuilder temp = letters;
+            letters = digits;
+            digits = temp;
+        }
+
+        for (int i = 0; i < letters.length(); i++) {
+            res.append(letters.charAt(i));
+            if (i < digits.length()) {
+                res.append(digits.charAt(i));
+            }
+        }
+
+        return res.toString();
     }
 }

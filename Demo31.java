@@ -1,42 +1,65 @@
+import java.util.*;
+
 public class Demo31 {
     public static void main(String[] args) {
-        // String A="gksrek";
-        // String B="geeksforgeeks";
-        String A = "AXY";
-        String B = "YADXCP";
-        System.out.println(isSubsequence(A, B));
+        // int arr[]={5,5,4,6,4};
+        //int arr[] = { 9, 9, 9, 2, 5 };
+        int arr[]={1,2,3,4};
+        sortByFrequency(arr);
+        //! Problem rule: 
+        // 1.Higher frequency first 
+        // 2.If same frequency → smaller value first
     }
 
-    /*public static int isSubsequence(String A, String B) {
-        int j = 0;
-        for (int i = 0; i < A.length(); i++) {
-            boolean found = false;
-            while (j < B.length()) {
-                if (A.charAt(i) == B.charAt(j)) {
-                    found = true;
-                    j++;
-                    break;
-                }
-                j++;
+    /*public static void sortByFrequency(int[] arr) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        List<Integer> elements = new ArrayList<>(freq.keySet());
+
+        elements.sort((a, b) -> {
+            if (!freq.get(a).equals(freq.get(b))) {
+                return freq.get(b) - freq.get(a);
             }
-            if (!found) {
-                return 0;
+            return a - b;
+        });
+
+        for (int num : elements) {
+            for (int i = 0; i < freq.get(num); i++) {
+                System.out.print(num + " ");
             }
         }
-        return 1;
+        System.out.println();
     }*/
 
-    public static int isSubsequence(String A, String B) {
-        int i = 0; // pointer for A
-        int j = 0; // pointer for B
-
-        while (i < A.length() && j < B.length()) {
-            if (A.charAt(i) == B.charAt(j)) {
-                i++; // match found, move A
-            }
-            j++; // always move B
+   public static void sortByFrequency(int[] arr) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
 
-        return (i == A.length()) ? 1 : 0;
+        TreeMap<Integer, Integer> tree = new TreeMap<>(
+            (a, b) -> {
+                if (!freq.get(a).equals(freq.get(b))) {
+                    return freq.get(b) - freq.get(a); // higher frequency first
+                }
+                return a - b; // smaller value first
+            }
+        );
+
+        tree.putAll(freq);
+
+    
+        for (Map.Entry<Integer, Integer> entry : tree.entrySet()) {
+            int value = entry.getKey();
+            int count = entry.getValue();
+
+            for (int i = 0; i < count; i++) {
+                System.out.print(value + " ");
+            }
+        }
+        System.out.println();
     }
 }

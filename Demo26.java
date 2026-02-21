@@ -1,25 +1,33 @@
 public class Demo26 {
     public static void main(String[] args) {
-        countCurrency(1500);
+        int[] coins = { 1, 2, 3 };
+        int sum = 4;
+        // System.out.println(coinChangeRecursive(coins, sum, 0));
+        System.out.println(coinChangeDP(coins, sum));
     }
-    //! Greedy Approach
-    public static void countCurrency(int amount)
-    {
-        int[] notes = new int[]{ 2000, 500, 200, 100, 50, 20, 10, 5, 1 };
-        int[] noteCounter = new int[9];
 
-        for (int i = 0; i < 9; i++) {
-            while (amount >= notes[i]) {
-                noteCounter[i] = amount / notes[i];
-                amount = amount % notes[i];
+    /*public static int coinChangeRecursive(int[] coins, int sum, int index) {
+        if (sum == 0)
+            return 1;
+        if (sum < 0 || index == coins.length)
+            return 0;
+
+        // Include coins[index] or skip it
+        int include = coinChangeRecursive(coins, sum - coins[index], index);
+        int exclude = coinChangeRecursive(coins, sum, index + 1);
+
+        return include + exclude;
+    }*/
+
+    public static int coinChangeDP(int[] coins, int sum) {
+        int[] dp = new int[sum + 1];
+        dp[0] = 1; // one way to make sum 0
+
+        for (int coin : coins) {
+            for (int i = coin; i <= sum; i++) {
+                dp[i] += dp[i - coin];
             }
         }
-     
-        System.out.println("Currency Count ->");
-        for (int i = 0; i < 9; i++) {
-            if (noteCounter[i] != 0) {
-                System.out.println(notes[i] + " : "+ noteCounter[i]);
-            }
-        }
+        return dp[sum];
     }
 }

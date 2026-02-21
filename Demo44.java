@@ -1,23 +1,24 @@
 public class Demo44 {
     public static void main(String[] args) {
-        System.out.println(minimumMoves("XXX")); 
-        System.out.println(minimumMoves("XXOX")); 
-        System.out.println(minimumMoves("OXOX")); 
+        int nums[]={2,2,3,2};
+        System.out.println(singleNumber(nums));
     }
-    public static int minimumMoves(String s) {
-        int moves = 0;
-        int i = 0;
+    public static int singleNumber(int[] nums) {
+        int result = 0;
 
-        while (i < s.length()) {
-            if (s.charAt(i) == 'X') {
-                moves++;
-                i += 3; // fix s[i], s[i+1], s[i+2]
-            } else {
-                i++;
+        for (int bit = 0; bit < 32; bit++) {
+            int count = 0;
+
+            for (int num : nums) {
+                if (((num >> bit) & 1) == 1) {
+                    count++;
+                }
+            }
+
+            if (count % 3 == 1) {
+                result |= (1 << bit);
             }
         }
-        return moves;
+        return result;
     }
-
-    
 }

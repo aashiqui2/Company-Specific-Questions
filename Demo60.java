@@ -1,51 +1,73 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Demo60 {
     public static void main(String[] args) {
-        int[] arr = { -1, 0, 1, 2, -1, -4 };
-        int n = arr.length;
-        List<List<Integer>> ans = triplet(n, arr);
-        for (List<Integer> it : ans) {
-            System.out.print("[");
-            for (Integer i : it) {
-                System.out.print(i + " ");
-            }
-            System.out.print("] ");
-        }
-        System.out.println();
+        String str = "ab4c2ed3";
+        int k = 9;
+        char c = findCharAtK(str, k);
+        System.out.println(c);
     }
-    public static List<List<Integer>> triplet(int n, int[] arr) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(arr);
+    /*
+    public static char findCharAtK(String str, int k) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        int len = str.length();
 
-        for (int i = 0; i < n; i++) {
-           
-            if (i != 0 && arr[i] == arr[i - 1])
-            { 
-                continue;
+        while (i < len) {
+            StringBuilder current = new StringBuilder();
+            while (i < len && Character.isLetter(str.charAt(i))) {
+                current.append(str.charAt(i));
+                i++;
+            }
+            int count = 0;
+            while (i < len && Character.isDigit(str.charAt(i))) {
+                count = count * 10 + (str.charAt(i) - '0');
+                i++;
             }
 
-            int j = i + 1;
-            int k = n - 1;
-            while (j < k) {
-                int sum = arr[i] + arr[j] + arr[k];
-                if (sum < 0) {
-                    j++;
-                } else if (sum > 0) {
-                    k--;
-                } else {
-                    List<Integer> temp = Arrays.asList(arr[i], arr[j], arr[k]);
-                    ans.add(temp);
-                    j++;
-                    k--;
-                    
-                    while (j < k && arr[j] == arr[j - 1]) j++;
-                    while (j < k && arr[k] == arr[k + 1]) k--;
-                }
+            for (int j = 0; j < count; j++) {
+                sb.append(current);
             }
         }
-        return ans;
+        return sb.charAt(k - 1);
     }
+    */
+
+    public static char findCharAtK(String s, long k) {
+        char[] str= s.toCharArray();
+        int n = str.length;
+        int i = 0;
+
+        while (i < n) {
+
+            int start = i;
+            int len = 0;
+
+            // Count substring length
+            while (i < n && Character.isAlphabetic(str[i])) {
+                i++;
+                len++;
+            }
+
+            // Read frequency (multi-digit safe)
+            long freq = 0;
+            while (i < n && Character.isDigit(str[i])) {
+                freq = freq * 10 + (str[i] - '0');
+                i++;
+            }
+
+            long blockLength = len * freq;
+
+            // If k lies in this block
+            if (k <= blockLength) {
+                long index = (k - 1) % len;
+                return str[start + (int) index];
+            }
+
+            // Otherwise skip this block
+            k -= blockLength;
+        }
+
+        // Edge case: no digits in string
+        return str[(int) k - 1];
+    }
+
 }

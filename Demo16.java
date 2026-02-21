@@ -1,85 +1,35 @@
+import java.util.*;
+
 public class Demo16 {
     public static void main(String[] args) {
-        char[][] board = {
-                { 'A', 'B', 'C', 'E' },
-                { 'S', 'F', 'C', 'S' },
-                { 'A', 'D', 'E', 'E' }
-        };
-
-        String word = "ABCCED";
-        System.out.println("Brute Force Result: " + exist(board, word));
-
-        System.out.println("Optimal Result: " +exist(board, word));
-    }
-
-    /*public static boolean exist(char[][] board, String word) {
-        int m = board.length, n = board[0].length;
-        boolean[][] vis = new boolean[m][n];
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (dfs(board, word, i, j, 0, vis)) {
-                    return true;
-                }
+        int n = 5;
+        List<List<Integer>> ans = pascalTriangle(n);
+        for (List<Integer> it : ans) {
+            for (int ele : it) {
+                System.out.print(ele + " ");
             }
+            System.out.println();
         }
-        return false;
     }
 
-    public static boolean dfs(char[][] board, String word,
-        int r, int c, int idx, boolean[][] vis) 
-    {
-        if (idx == word.length())
-            return true;
-
-        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length)
-            return false;
-
-        if (vis[r][c] || board[r][c] != word.charAt(idx))
-            return false;
-
-        vis[r][c] = true;
-
-        boolean found = dfs(board, word, r + 1, c, idx + 1, vis) ||
-                dfs(board, word, r - 1, c, idx + 1, vis) ||
-                dfs(board, word, r, c + 1, idx + 1, vis) ||
-                dfs(board, word, r, c - 1, idx + 1, vis);
-
-        vis[r][c] = false; // backtrack
-        return found;
-    }*/
-
-    public static boolean exist(char[][] board, String word) {
-        int m = board.length, n = board[0].length;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (dfs(board, word, i, j, 0)) {
-                    return true;
-                }
-            }
+    public static List<Integer> generateRow(int row) {
+        long ans = 1;
+        List<Integer> ansRow = new ArrayList<>();
+        ansRow.add(1); 
+        for (int col = 1; col < row; col++) {
+            ans = ans * (row - col);
+            ans = ans / col;
+            ansRow.add((int) ans);
         }
-        return false;
+        return ansRow;
     }
 
-    public static boolean dfs(char[][] board, String word, int r, int c, int idx) {
-        if (idx == word.length()) return true;
-        
-        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length)
-            return false;
-
-        if (board[r][c] != word.charAt(idx))
-            return false;
-
-        char temp = board[r][c];
-        board[r][c] = '#'; // mark visited
-
-        boolean found =
-                dfs(board, word, r + 1, c, idx + 1) ||
-                dfs(board, word, r - 1, c, idx + 1) ||
-                dfs(board, word, r, c + 1, idx + 1) ||
-                dfs(board, word, r, c - 1, idx + 1);
-
-        board[r][c] = temp; // backtrack
-        return found;
+    public static List<List<Integer>> pascalTriangle(int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int row = 1; row <= n; row++) {
+            ans.add(generateRow(row));
+        }
+        return ans;
     }
+
 }

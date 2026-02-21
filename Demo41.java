@@ -1,32 +1,27 @@
 public class Demo41 {
     public static void main(String[] args) {
-        int[] nums1 = { 1, 1, 2, 3, 3, 4, 4, 8, 8 };
-        System.out.println(singleNonDuplicate(nums1)); 
-
-        int[] nums2 = { 3, 3, 7, 7, 10, 11, 11 };
-        System.out.println(singleNonDuplicate(nums2)); 
+        int[] arr = { 1, 0, 2, 3, 2, 0, 0, 4, 5, 1 };
+        int n = 10;
+        int[] ans = moveZeros(n, arr);
+        for (int i = 0; i < n; i++) {
+            System.out.print(ans[i] + " ");
+        }
+        System.out.println("");
     }
 
-    public static int singleNonDuplicate(int[] nums) {
-        int low = 0, high = nums.length - 1;
-
-        while (low < high) {
-            int mid = (low + high) / 2;
-
-            // Ensure mid is even
-            if (mid % 2 == 1)
-                mid--;
-
-            if (nums[mid] == nums[mid + 1]) {
-                // Single element is after this pair
-                low = mid + 2;
-            } else {
-                // Single element is before this pair (could be mid)
-                high = mid;
+    public static int[] moveZeros(int n, int[] arr) {
+        int index = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 0) {
+                if (i != index) {
+                    int temp = arr[i];
+                    arr[i] = arr[index];
+                    arr[index] = temp;
+                }
+                index++;
             }
         }
-
-        return nums[low];
+        return arr;
     }
 
 }

@@ -1,74 +1,30 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 public class Demo63 {
-    public static void main(String[] args) {
-        //String  s = "ilike";
-        //String dictionary[] = {"i", "like", "gfg"};
-        String s="catsandog";
-        List<String> dictionary = Arrays.asList("cats", "dog", "sand", "and", "cat");
-        System.out.println(wordBreak(s, dictionary));
+    public static void main(String args[]) {
+        int n = 5;
+        int[] arr = { -8, 1, 4, 6, 10, 45 };
+        int target = 16;
+
+        int[] ans = twoSum(n, arr, target);
+        System.out.println(Arrays.toString(ans));
     }
 
-    /*public static boolean wordBreak(String s, String[] dictionary) {
-        return solve(s, new HashSet<>(Arrays.asList(dictionary)));
+    public static int[] twoSum(int n, int[] arr, int target) {
+        int[] ans = new int[2];
+        ans[0] = ans[1] = -1;
+        HashMap<Integer, Integer> mpp = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int num = arr[i];
+            int moreNeeded = target - num;
+            if (mpp.containsKey(moreNeeded)) {
+                ans[0] = mpp.get(moreNeeded);
+                ans[1] = i;
+                return ans;
+            }
+
+            mpp.put(arr[i], i);
+        }
+        return ans;
     }
 
-    public static boolean solve(String s, Set<String> set) {
-        if (s.length() == 0){
-            return true;
-        }
-        for (int i = 1; i <= s.length(); i++) {
-            String prefix = s.substring(0, i);
-            if (set.contains(prefix)) {
-                if (solve(s.substring(i), set)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-
-    /*public static boolean wordBreak(String s, List<String> dictionary) {
-        Set<String> set = new HashSet<>(dictionary);
-        
-        //find max len in the dictionary
-        int maxLen=0;
-        for(String word:dictionary){
-            maxLen=MAth.max(maxLen,word.length());
-        }
-        int n=s.length();
-        boolean[] dp = new boolean[n + 1];
-        //base case :empty string
-        dp[0] = true;
-
-        for (int i = 1; i <= n; i++) {
-
-            for (int j = i-1; j >=Math.max(0,i-maxLen); j--) {
-
-                if (dp[j] && set.contains(s.substring(j, i))) {
-                    dp[i] = true;
-                    break;
-                }
-            }
-        }
-        return dp[n];
-    }*/
-    public static boolean wordBreak(String s, List<String> wordDict) {
-        Set<String>dict = new HashSet<>(wordDict);
-        int n = s.length();
-        boolean []dp = new boolean [n+1];
-        dp[0] = true;
-        for(int i=1;i<=n;i++){
-            for(int j=0;j<i;j++){
-                if(dp[j] && dict.contains(s.substring(j,i))){
-                    dp[i] =true;
-                     break;
-                }
-            }
-        }
-        return dp[n];
-    }
 }

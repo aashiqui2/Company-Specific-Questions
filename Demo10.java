@@ -1,29 +1,29 @@
 public class Demo10 {
     public static void main(String[] args) {
-        int arr[] = { -1, 2, 3, 10, -4, 7, 2, -5 };
-        int result = findMaxSubArraySum(arr, arr.length);
+        int N = 100;
+        int Y = 17;
+
+        int result = findMinFriends(N, Y);
         System.out.println(result);
     }
 
-    /*public static int findMaxSubArraySum(int[] arr, int n) {
-        int maxSum = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            int currentSum = 0;
-            for (int j = i; j < n; j++) {
-                currentSum += arr[j];
-                maxSum = Math.max(maxSum, currentSum);
+    
+    public static int findMinFriends(int N, int Y) {
+        for (int i = Y; i <= N; i++) {
+            if (N % i == 0) {
+                return sumOfDigits(i);
             }
         }
-        return maxSum;
-    }*/
+        return -1;
+    }
+    
 
-    public static int findMaxSubArraySum(int[] arr, int n) {
-        int maxSum = arr[0];
-        int currentSum = arr[0];
-        for (int i = 1; i < n; i++) {
-            currentSum = Math.max(arr[i], currentSum + arr[i]);
-            maxSum = Math.max(maxSum, currentSum);
+    public static int sumOfDigits(int num) {
+        int sum = 0;
+        while (num != 0) {
+            sum += num % 10;
+            num /= 10;
         }
-        return maxSum;
+        return sum;
     }
 }

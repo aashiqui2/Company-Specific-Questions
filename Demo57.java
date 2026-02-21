@@ -1,32 +1,87 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class Demo57 {
     public static void main(String[] args) {
-        // int arr[]={2, 2, 0, 4, 0, 8};
-        int arr[] = { 0, 2, 2, 2, 0, 6, 6, 0, 0, 8 };
-        System.out.println(Arrays.toString(modifyAndRearrangeArr(arr)));
+        String s = "3[b2[ca]]";
+        // String s = "3[a2[c]]";
+        // String s = "2[abc]3[cd]ef";
+        // String s="2[ab]3c";
+        // String s = "2a3bc";
+        System.out.println(decode(s));
     }
-    public static int[] modifyAndRearrangeArr(int[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] != 0 && arr[i] == arr[i + 1]) {
-                arr[i] *= 2;
-                arr[i + 1] = 0;
-                i++; // skip next element
-            }
-        }
 
-        int idx=0;
-        for(int i=0;i<arr.length;i++){
-            if(arr[i]!=0){
-                if(i!=idx){
-                    arr[idx]=arr[i];
-                    arr[i]=0;
+    /*
+    static int index = 0;
+    public static String decode(String s) {
+        StringBuilder result = new StringBuilder();
+        int number = 0;
+        while (index < s.length() && s.charAt(index) != ']') {
+            char ch = s.charAt(index);
+            if (Character.isDigit(ch)) {
+                number = number * 10 + (ch - '0');
+                index++;
+            } else if (ch == '[') {
+                index++; // skip '['
+                String inner = decode(s);
+                for (int i = 0; i < number; i++) {
+                    result.append(inner);
                 }
-                idx++;
+                number = 0;
+            } else {
+                if (number != 0) {
+                    for (int i = 0; i < number; i++) {
+                        result.append(ch);
+                    }
+                    number = 0;
+                } else {
+                    result.append(ch);
+                }
+                index++;
             }
         }
-        return arr;
+        if (index < s.length() && s.charAt(index) == ']') {
+            index++;
+        }
+        return result.toString();
+    }
+    */
+
+    public static String decode(String s) {
+        Stack<Integer> countStack = new Stack<>();
+        Stack<StringBuilder> stringStack = new Stack<>();
+
+        StringBuilder current = new StringBuilder();
+        int number = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (Character.isDigit(ch)) {
+                number = number * 10 + (ch - '0');
+            }
+            else if (ch == '[') {
+                countStack.push(number);
+                stringStack.push(current);
+                number = 0;
+                current = new StringBuilder();
+            }
+            else if (ch == ']') {
+                int repeat = countStack.pop();
+                StringBuilder previous = stringStack.pop();
+                for (int j = 0; j < repeat; j++) {
+                    previous.append(current);
+                }
+                current = previous;
+            }
+            else { 
+                if (number != 0) { 
+                    for (int j = 0; j < number; j++) {
+                        current.append(ch);
+                    }
+                    number = 0;
+                } else {
+                    current.append(ch);
+                }
+            }
+        }
+        return current.toString();
     }
 }

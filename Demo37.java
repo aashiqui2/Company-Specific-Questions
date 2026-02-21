@@ -1,33 +1,52 @@
+import java.util.Arrays;
+
 public class Demo37 {
     public static void main(String[] args) {
-        int[] arr1 = { 2, 4, 6, 8, 9, 10, 12 };
-        int[] arr2 = { 2, 4, 6, 8, 10, 12 };
-        System.out.println(findExtra(arr1, arr2));
+        int[] arr1 = { 5, 11, 10, 20, 9, 16, 23 };
+        System.out.println(Arrays.toString(sortByFactors(arr1)));
+    }
+    static class Element {
+        int value;
+        int factorsCount;
+        int index;
+
+        Element(int value, int factorsCount, int index) {
+            this.value = value;
+            this.factorsCount = factorsCount;
+            this.index = index;
+        }
     }
 
-    /*public static int findExtra(int[] arr1, int[] arr2) {
-        int n = arr2.length;
+    public static int[] sortByFactors(int[] arr) {
+        int n = arr.length;
+        Element[] elements = new Element[n];
 
         for (int i = 0; i < n; i++) {
-            if (arr1[i] != arr2[i]) {
-                return i;
-            }
+            elements[i] = new Element(arr[i], countFactors(arr[i]), i);
         }
-        return n;
-    }*/
 
-    public static int findExtra(int[] arr1, int[] arr2) {
-        int low = 0, high = arr2.length - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        Arrays.sort(elements, (a, b) -> {
+            if (b.factorsCount != a.factorsCount)
+                return b.factorsCount - a.factorsCount; 
+            return a.index - b.index;         
+        });
 
-            if (arr1[mid] == arr2[mid]) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
+        int[] result = new int[n];
+        for (int i = 0; i < n; i++) {
+            result[i] = elements[i].value;
         }
-        return low;
+        return result;
     }
-
+    public static int countFactors(int n) {
+        int count = 0;
+        for (int i = 1; i * i <= n; i++) {
+            if (n % i == 0) {
+                if (i == n/i)
+                    count += 1;
+                else
+                    count += 2;
+            }
+        }
+        return count;
+    }
 }

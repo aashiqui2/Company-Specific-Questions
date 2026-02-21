@@ -1,35 +1,44 @@
 import java.util.Arrays;
 
 public class Demo34 {
-    public static void main(String[] args) {
-        System.out.println(countPrimes(10)); // Output: 4
-        System.out.println(countPrimes(0));  // Output: 0
-        System.out.println(countPrimes(1));  // Output: 0
-        System.out.println(countPrimes(100)); // Output: 25
+     public static void main(String[] args) {
+        int[] A = { 20, 7 };
+        int[] B = { 11, 5 };
+
+        System.out.println(Arrays.toString(leastPrimeToAdd(A, B)));
     }
-    public static int countPrimes(int n) {
-        if (n <= 2) return 0; // no prime less than 2
+    
+    // 1 is considered prime as per problem statement
+    static boolean isPrime(int n) {
+        if (n == 1)
+            return true;
+        if (n < 2)
+            return false;
 
-        boolean[] isPrime = new boolean[n];
-        Arrays.fill(isPrime, true);
-        isPrime[0] = false;
-        isPrime[1] = false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                return false;
+        }
+        return true;
+    }
 
-        for (int i = 2; i * i < n; i++) {
-            if (isPrime[i]) {
-                for (int j = i * i; j < n; j += i) {
-                    isPrime[j] = false;
+    static int[] leastPrimeToAdd(int[] A, int[] B) {
+        int n = A.length;
+        int[] result = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int ans = -1;
+
+            for (int p = 1; p < 1000; p++) {
+                if (isPrime(p) && (A[i] + p) % B[i] == 0) {
+                    ans = p;
+                    break;
                 }
             }
-        }
 
-        int count = 0;
-        for (int i = 2; i < n; i++) {
-            if (isPrime[i]) count++;
+            result[i] = ans;
         }
-
-        return count;
+        return result;
     }
 
-    
 }

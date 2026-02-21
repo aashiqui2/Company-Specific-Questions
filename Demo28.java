@@ -1,33 +1,23 @@
+import java.util.*;
+
 public class Demo28 {
-    public static void main(String[] args) {
-        int[] coins = { 1, 2, 3 };
-        int sum = 4;
-        System.out.println(coinChangeRecursive(coins, sum, 0)); // Output: 4
-    }
-
-    /*public static int coinChangeRecursive(int[] coins, int sum, int index) {
-        if (sum == 0)
-            return 1;
-        if (sum < 0 || index == coins.length)
-            return 0;
-
-        // Include coins[index] or skip it
-        int include = coinChangeRecursive(coins, sum - coins[index], index);
-        int exclude = coinChangeRecursive(coins, sum, index + 1);
-
-        return include + exclude;
-    }*/
-
-    public static int coinChangeDP(int[] coins, int sum) {
-    int[] dp = new int[sum + 1];
-    dp[0] = 1; // one way to make sum 0
-
-    for (int coin : coins) {
-        for (int i = coin; i <= sum; i++) {
-            dp[i] += dp[i - coin];
+    public static int maximumUnits(int[][] boxTypes, int truckSize) {
+        Arrays.sort(boxTypes, (a, b) -> Integer.compare(b[1], a[1]));
+        int res = 0;
+        for (int[] box : boxTypes) {
+            if (truckSize == 0)
+                break;
+            int boxesToTake = Math.min(truckSize, box[0]);
+            res += boxesToTake * box[1];
+            truckSize -= boxesToTake;
         }
-    }
 
-    return dp[sum];
-  }
+        return res;
+    }
+    public static void main(String[] args) {
+        int boxTypes[][]={{1,3},{2,2},{3,1}};
+        int truckSize=4;
+        System.out.println(maximumUnits(boxTypes, truckSize));
+
+    }
 }

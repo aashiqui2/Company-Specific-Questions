@@ -1,48 +1,49 @@
+import java.util.*;
+
 public class Demo64 {
     public static void main(String[] args) {
-        String str1="occurrence";
-        String str2="car";
-        System.out.println(removeChars(str1, str2));
-
+        int[] arr = { -1, 0, 1, 2, -1, -4 };
+        int n = arr.length;
+        List<List<Integer>> ans = triplet(n, arr);
+        for (List<Integer> it : ans) {
+            System.out.print("[");
+            for (Integer i : it) {
+                System.out.print(i + " ");
+            }
+            System.out.print("] ");
+        }
+        System.out.println();
     }
+    public static List<List<Integer>> triplet(int n, int[] arr) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(arr);
 
-    /*public static String removeChars(String str1, String str2) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < str1.length(); i++) {
-            char ch = str1.charAt(i);
-            boolean found = false;
+        for (int i = 0; i < n; i++) {
+           
+            if (i != 0 && arr[i] == arr[i - 1])
+            { 
+                continue;
+            }
 
-            for (int j = 0; j < str2.length(); j++) {
-                if (ch == str2.charAt(j)) {
-                    found = true;
-                    break;
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) {
+                int sum = arr[i] + arr[j] + arr[k];
+                if (sum < 0) {
+                    j++;
+                } else if (sum > 0) {
+                    k--;
+                } else {
+                    List<Integer> temp = Arrays.asList(arr[i], arr[j], arr[k]);
+                    ans.add(temp);
+                    j++;
+                    k--;
+                    
+                    while (j < k && arr[j] == arr[j - 1]) j++;
+                    while (j < k && arr[k] == arr[k + 1]) k--;
                 }
             }
-
-            if (!found) {
-                result.append(ch);
-            }
         }
-        return result.toString();
-    }*/
-
-    public static String removeChars(String str1, String str2) {
-        boolean[] remove = new boolean[26];
-        // Mark characters from str2
-        for (int i = 0; i < str2.length(); i++) {
-            remove[str2.charAt(i) - 'a'] = true;
-        }
-        StringBuilder result = new StringBuilder();
-
-        // Build result from str1
-        for (int i = 0; i < str1.length(); i++) {
-            char ch = str1.charAt(i);
-
-            if (!remove[ch - 'a']) {
-                result.append(ch);
-            }
-        }
-
-        return result.toString();
+        return ans;
     }
 }

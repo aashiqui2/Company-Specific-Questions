@@ -1,29 +1,35 @@
+import java.util.Arrays;
+
 public class Demo36 {
     public static void main(String[] args) {
-        int n = 13;
-        System.out.println(isTwistedPrime(n)); 
+        System.out.println(countPrimes(10)); // Output: 4
+        System.out.println(countPrimes(0));  // Output: 0
+        System.out.println(countPrimes(1));  // Output: 0
+        System.out.println(countPrimes(100)); // Output: 25
     }
-    public static int isTwistedPrime(int N) {
-       if(isPrime(N) && isPrime(rev(N)) ){
-           return 1;
-       }
-       return 0;
-    }
-    
-    public static  boolean isPrime(int n){
-        for(int i=2;i*i<=n;i++){
-            if(n%i==0){
-                return false;
+    public static int countPrimes(int n) {
+        if (n <= 2) return 0; // no prime less than 2
+
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        for (int i = 2; i * i < n; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    isPrime[j] = false;
+                }
             }
         }
-        return true;
-    }
-    
-    public static int rev(int n){
-        int sum=0;
-        for(int i=n;i>0;i=i/10){
-            sum=sum*10+(i%10);
+
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime[i]) count++;
         }
-        return sum;
+
+        return count;
     }
+
+    
 }
